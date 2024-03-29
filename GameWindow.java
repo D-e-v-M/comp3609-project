@@ -1,15 +1,14 @@
-import javax.swing.*;			// need this for GUI objects
-import java.awt.*;			// need this for Layout Managers
-import java.awt.event.*;		// need this to respond to GUI events
-	
-public class GameWindow extends JFrame 
-				implements ActionListener,
-					   KeyListener,
-					   MouseListener
-{
+import javax.swing.*; // need this for GUI objects
+import java.awt.*; // need this for Layout Managers
+import java.awt.event.*; // need this to respond to GUI events
+
+public class GameWindow extends JFrame
+		implements ActionListener,
+		KeyListener,
+		MouseListener {
 	// declare instance variables for user interface objects
 
-	// declare labels 
+	// declare labels
 
 	private JLabel statusBarL;
 	private JLabel keyL;
@@ -35,25 +34,25 @@ public class GameWindow extends JFrame
 	private JPanel mainPanel;
 	private GamePanel gamePanel;
 
-	@SuppressWarnings({"unchecked"})
+	@SuppressWarnings({ "unchecked" })
 	public GameWindow() {
- 
-		setTitle ("A Game With Aliens, Image Effects, and Animations");
-		setSize (500, 575);
+
+		setTitle("A Game With Aliens, Image Effects, and Animations");
+		setSize(500, 575);
 
 		// create user interface objects
 
 		// create labels
 
-		statusBarL = new JLabel ("Application Status: ");
+		statusBarL = new JLabel("Application Status: ");
 		keyL = new JLabel("Key Pressed: ");
 		mouseL = new JLabel("Location of Mouse Click: ");
 
 		// create text fields and set their colour, etc.
 
-		statusBarTF = new JTextField (25);
-		keyTF = new JTextField (25);
-		mouseTF = new JTextField (25);
+		statusBarTF = new JTextField(25);
+		keyTF = new JTextField(25);
+		mouseTF = new JTextField(25);
 
 		statusBarTF.setEditable(false);
 		keyTF.setEditable(false);
@@ -65,13 +64,12 @@ public class GameWindow extends JFrame
 
 		// create buttons
 
-	        startB = new JButton ("Start Game");
-	        pauseB = new JButton ("Pause Game");
-	        endB = new JButton ("End Game");
-		startNewB = new JButton ("Start New Game");
-	        focusB = new JButton ("Shoot Cat");
-		exitB = new JButton ("Exit");
-
+		startB = new JButton("Start Game");
+		pauseB = new JButton("Pause Game");
+		endB = new JButton("End Game");
+		startNewB = new JButton("Start New Game");
+		focusB = new JButton("Shoot Cat");
+		exitB = new JButton("Exit");
 
 		// add listener to each button (same as the current object)
 
@@ -81,7 +79,7 @@ public class GameWindow extends JFrame
 		startNewB.addActionListener(this);
 		focusB.addActionListener(this);
 		exitB.addActionListener(this);
-		
+
 		// create mainPanel
 
 		mainPanel = new JPanel();
@@ -93,7 +91,7 @@ public class GameWindow extends JFrame
 		// create the gamePanel for game entities
 
 		gamePanel = new GamePanel();
-        	gamePanel.setPreferredSize(new Dimension(400, 400));
+		gamePanel.setPreferredSize(new Dimension(400, 400));
 
 		// create infoPanel
 
@@ -103,17 +101,16 @@ public class GameWindow extends JFrame
 		infoPanel.setBackground(Color.ORANGE);
 
 		// add user interface objects to infoPanel
-	
-		infoPanel.add (statusBarL);
-		infoPanel.add (statusBarTF);
 
-		infoPanel.add (keyL);
-		infoPanel.add (keyTF);		
+		infoPanel.add(statusBarL);
+		infoPanel.add(statusBarTF);
 
-		infoPanel.add (mouseL);
-		infoPanel.add (mouseTF);
+		infoPanel.add(keyL);
+		infoPanel.add(keyTF);
 
-		
+		infoPanel.add(mouseL);
+		infoPanel.add(mouseTF);
+
 		// create buttonPanel
 
 		JPanel buttonPanel = new JPanel();
@@ -122,12 +119,12 @@ public class GameWindow extends JFrame
 
 		// add buttons to buttonPanel
 
-		buttonPanel.add (startB);
-		buttonPanel.add (pauseB);
-		buttonPanel.add (endB);
-		buttonPanel.add (startNewB);
-		buttonPanel.add (focusB);
-		buttonPanel.add (exitB);
+		buttonPanel.add(startB);
+		buttonPanel.add(pauseB);
+		buttonPanel.add(endB);
+		buttonPanel.add(startNewB);
+		buttonPanel.add(focusB);
+		buttonPanel.add(exitB);
 
 		// add sub-panels with GUI objects to mainPanel and set its colour
 
@@ -158,13 +155,12 @@ public class GameWindow extends JFrame
 		statusBarTF.setText("Application started.");
 	}
 
-
 	// implement single method in ActionListener interface
 
 	public void actionPerformed(ActionEvent e) {
 
 		String command = e.getActionCommand();
-		
+
 		statusBarTF.setText(command + " button clicked.");
 
 		if (command.equals(startB.getText())) {
@@ -174,12 +170,12 @@ public class GameWindow extends JFrame
 		if (command.equals(pauseB.getText())) {
 			gamePanel.pauseGame();
 			if (command.equals("Pause Game"))
-				pauseB.setText ("Resume");
+				pauseB.setText("Resume");
 			else
-				pauseB.setText ("Pause Game");
+				pauseB.setText("Pause Game");
 
 		}
-		
+
 		if (command.equals(endB.getText())) {
 			gamePanel.endGame();
 		}
@@ -196,7 +192,6 @@ public class GameWindow extends JFrame
 		mainPanel.requestFocus();
 	}
 
-
 	// implement methods in KeyListener interface
 
 	public void keyPressed(KeyEvent e) {
@@ -205,19 +200,19 @@ public class GameWindow extends JFrame
 		keyTF.setText(keyText + " pressed.");
 
 		if (keyCode == KeyEvent.VK_LEFT) {
-			gamePanel.updateBat (1);
+			gamePanel.updateWizard(1);
 		}
 
 		if (keyCode == KeyEvent.VK_RIGHT) {
-			gamePanel.updateBat (2);
+			gamePanel.updateWizard(2);
 		}
 
 		if (keyCode == KeyEvent.VK_UP) {
-			gamePanel.updateBat (3);
+			gamePanel.updateWizard(3);
 		}
 
 		if (keyCode == KeyEvent.VK_DOWN) {
-			gamePanel.updateBat (4);
+			gamePanel.updateWizard(4);
 		}
 	}
 
@@ -229,7 +224,6 @@ public class GameWindow extends JFrame
 
 	}
 
-
 	// implement methods in MouseListener interface
 
 	public void mouseClicked(MouseEvent e) {
@@ -237,34 +231,32 @@ public class GameWindow extends JFrame
 		int x = e.getX();
 		int y = e.getY();
 
-		if (gamePanel.isOnBat(x, y)) {
-			statusBarTF.setText ("Mouse click on bat!");
+		if (gamePanel.isOnWizard(x, y)) {
+			statusBarTF.setText("Mouse click on wizard!");
 			statusBarTF.setBackground(Color.RED);
-		}
-		else {
-			statusBarTF.setText ("");
+		} else {
+			statusBarTF.setText("");
 			statusBarTF.setBackground(Color.CYAN);
 		}
 
-		mouseTF.setText("(" + x +", " + y + ")");
+		mouseTF.setText("(" + x + ", " + y + ")");
 
 	}
 
-
 	public void mouseEntered(MouseEvent e) {
-	
+
 	}
 
 	public void mouseExited(MouseEvent e) {
-	
+
 	}
 
 	public void mousePressed(MouseEvent e) {
-	
+
 	}
 
 	public void mouseReleased(MouseEvent e) {
-	
+
 	}
 
 }
