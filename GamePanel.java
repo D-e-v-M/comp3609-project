@@ -12,11 +12,14 @@ public class GamePanel extends JPanel
 		implements Runnable {
 
 	private static int NUM_TROLLS = 3;
+	private static int NUM_GOBLINS = 3;
 
 	private SoundManager soundManager;
 	private Wizard wizard;
 	private Troll[] trolls;
+	private Goblin[] goblins;
 	private boolean trollDropped;
+	private boolean goblinsDropped;
 	private boolean isRunning;
 	private boolean isPaused;
 
@@ -57,6 +60,11 @@ public class GamePanel extends JPanel
 		trolls[1] = new Troll(this, 150, 10, wizard);
 		trolls[2] = new Troll(this, 330, 10, wizard);
 
+		goblins = new Goblin[3];
+		goblins[0] = new Goblin(this, 275, 10, wizard);
+		goblins[1] = new Goblin(this, 150, 10, wizard);
+		goblins[2] = new Goblin(this, 330, 10, wizard);
+
 		imageFX = new TintFX(this);
 		imageFX2 = new GrayScaleFX2(this);
 
@@ -82,7 +90,11 @@ public class GamePanel extends JPanel
 		/*
 		 * for (int i=0; i<NUM_TROLLS; i++) {
 		 * trolls[i].move();
+		 * }\
+		 * for (int i=0; i<NUM_GOBLINS; i++) {
+		 * goblins[i].move();
 		 * }
+		 * 
 		 * 
 		 * imageFX.update();
 		 * imageFX2.update();
@@ -127,6 +139,11 @@ public class GamePanel extends JPanel
 		 * if (trolls != null) {
 		 * for (int i=0; i<NUM_TROLLS; i++)
 		 * trolls[i].draw(imageContext);
+		 * }
+		 * 
+		 * if (goblins != null) {
+		 * for (int i=0; i<NUM_GOBLINS; i++)
+		 * goblins[i].draw(imageContext);
 		 * }
 		 * 
 		 * if (imageFX != null) {

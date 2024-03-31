@@ -33,6 +33,7 @@ public class Goblin {
     private Wizard wizard;
     private SoundManager soundManager;
     private Image goblinImage;
+    private int count=0;
 
     public Goblin(JPanel p, int xPos, int yPos, Wizard wizard) {
         panel = p;
@@ -49,8 +50,8 @@ public class Goblin {
 
         setLocation();
 
-        dx = 0; // no movement along x-axis
-        dy = 5; // would like the troll to drop down
+        dx = 5; 
+        dy = 5; 
 
         this.wizard = wizard;
         goblinImage = ImageManager.loadImage("images/goblin.png");
@@ -70,6 +71,51 @@ public class Goblin {
     }
 
     public void move() {
+        if (!panel.isVisible ()) return;
+
+      x = x + dx;
+      y = y + dy;
+      if (x < 0)
+      {
+         x = 0;
+         dx=5;
+      }		
+				
+      if (x + width > dimension.width){
+         x = dimension.width - width;
+         dx=-5;
+      }	
+      if (y + height > dimension.height)
+      {
+         y = dimension.height - height;
+         dy=-5;
+      }
+        
+				
+         if (y<0)
+         {
+            y=0;
+            dy=5;
+         }
+       
+
+      boolean collision = collidesWithWizard();
+     
+      
+      if (collision) {
+          
+          setLocation(); //changing position
+          //panel.addPoints(20);
+         
+         // soundManager.playClip("collection", false);
+        
+        
+        
+       
+         
+          count++;
+          
+      }
 
     }
 
