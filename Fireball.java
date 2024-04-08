@@ -95,6 +95,7 @@ public class Fireball extends Thread {
 
         boolean isRunning = true;
 
+        // Fireball not rendering on screen. Need fix
         try {
             while (isRunning) {
                 isRunning = move();
