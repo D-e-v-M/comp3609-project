@@ -55,7 +55,7 @@ public class GamePanel extends JPanel
 
 	public void createGameEntities() {
 
-		background = new Background(this, "images/Scroll-Background.png", 96);
+		background = new Background(this, "images/cave-background.png", 96);
 
 		wizard = new Wizard(this, 175, 350);
 		fireball = new Fireball(this, 175, 350);

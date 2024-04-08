@@ -40,7 +40,7 @@ public class SoundManager { // a Singleton class
 		clip = loadClip("sounds/troll-hit.wav");
 		clips.put("trollHit", clip);
 
-		clip = loadClip("sounds/thumb-and-grunt.wav");
+		clip = loadClip("sounds/thump-and-grunt.wav");
 		clips.put("objectHit", clip);
 
 		clip = loadClip("sounds/fireball-collision.wav");
