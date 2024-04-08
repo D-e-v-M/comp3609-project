@@ -126,8 +126,10 @@ public class GamePanel extends JPanel
 	}
 
 	public void shootFireball() {
-		if (fireball != null && wizard != null)
+		if (fireball != null && wizard != null) {
 			fireball.shoot(imageContext);
+			soundManager.playClip("fireballShoot", false);
+		}
 	}
 
 	public void gameRender() {

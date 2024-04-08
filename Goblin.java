@@ -99,9 +99,11 @@ public class Goblin {
             dy = 5;
         }
 
-        boolean collision = collidesWithWizard();
+        boolean wizardCollision = collidesWithWizard();
+        boolean fireCollision = collidesWithFireball();
 
-        if (collision) {
+        if (wizardCollision) {
+            soundManager.playClip("goblinHit", false);
 
             setLocation(); // changing position
             // panel.addPoints(20);
@@ -110,6 +112,12 @@ public class Goblin {
 
             count++;
 
+        }
+
+        if (fireCollision) {
+            soundManager.playClip("goblinDeath", false);
+            soundManager.playClip("fireballHit", false);
+            setLocation();
         }
 
     }

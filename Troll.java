@@ -81,12 +81,17 @@ public class Troll {
       y = y + dy;
 
       int height = panel.getHeight();
-      boolean collision = collidesWithWizard();
+      boolean wizardCollision = collidesWithWizard();
+      boolean fireCollision = collidesWithFireball();
 
-      if (collision)
-         soundManager.playClip("hit", false);
+      if (wizardCollision) {
+         soundManager.playClip("trollHit", false);
+         setLocation();
+      }
 
-      if (collision) {
+      if (fireCollision) {
+         soundManager.playClip("trollDeath", false);
+         soundManager.playClip("fireballHit", false);
          setLocation();
       }
 
