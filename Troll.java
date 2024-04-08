@@ -31,10 +31,11 @@ public class Troll {
    private Random random;
 
    private Wizard wizard;
+   private Fireball fireball;
    private SoundManager soundManager;
    private Image trollImage;
 
-   public Troll(JPanel p, int xPos, int yPos, Wizard wizard) {
+   public Troll(JPanel p, int xPos, int yPos, Wizard wizard, Fireball fireball) {
       panel = p;
       dimension = panel.getSize();
       backgroundColour = panel.getBackground();
@@ -53,6 +54,8 @@ public class Troll {
       dy = 5; // would like the troll to drop down
 
       this.wizard = wizard;
+      this.fireball = fireball;
+
       trollImage = ImageManager.loadImage("images/troll.png");
       soundManager = SoundManager.getInstance();
    }
@@ -113,6 +116,13 @@ public class Troll {
       Rectangle2D.Double wizardRect = wizard.getBoundingRectangle();
 
       return myRect.intersects(wizardRect);
+   }
+
+   public boolean collidesWithFireball() {
+      Rectangle2D.Double myRect = getBoundingRectangle();
+      Rectangle2D.Double fireRect = fireball.getBoundingRectangle();
+
+      return myRect.intersects(fireRect);
    }
 
 }

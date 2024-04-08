@@ -31,11 +31,13 @@ public class Goblin {
     private Random random;
 
     private Wizard wizard;
+    private Fireball fireball;
+
     private SoundManager soundManager;
     private Image goblinImage;
-    private int count=0;
+    private int count = 0;
 
-    public Goblin(JPanel p, int xPos, int yPos, Wizard wizard) {
+    public Goblin(JPanel p, int xPos, int yPos, Wizard wizard, Fireball fireball) {
         panel = p;
         dimension = panel.getSize();
         backgroundColour = panel.getBackground();
@@ -50,10 +52,12 @@ public class Goblin {
 
         setLocation();
 
-        dx = 5; 
-        dy = 5; 
+        dx = 5;
+        dy = 5;
 
         this.wizard = wizard;
+        this.fireball = fireball;
+
         goblinImage = ImageManager.loadImage("images/goblin.png");
         soundManager = SoundManager.getInstance();
     }
@@ -71,51 +75,42 @@ public class Goblin {
     }
 
     public void move() {
-        if (!panel.isVisible ()) return;
+        if (!panel.isVisible())
+            return;
 
-      x = x + dx;
-      y = y + dy;
-      if (x < 0)
-      {
-         x = 0;
-         dx=5;
-      }		
-				
-      if (x + width > dimension.width){
-         x = dimension.width - width;
-         dx=-5;
-      }	
-      if (y + height > dimension.height)
-      {
-         y = dimension.height - height;
-         dy=-5;
-      }
-        
-				
-         if (y<0)
-         {
-            y=0;
-            dy=5;
-         }
-       
+        x = x + dx;
+        y = y + dy;
+        if (x < 0) {
+            x = 0;
+            dx = 5;
+        }
 
-      boolean collision = collidesWithWizard();
-     
-      
-      if (collision) {
-          
-          setLocation(); //changing position
-          //panel.addPoints(20);
-         
-         // soundManager.playClip("collection", false);
-        
-        
-        
-       
-         
-          count++;
-          
-      }
+        if (x + width > dimension.width) {
+            x = dimension.width - width;
+            dx = -5;
+        }
+        if (y + height > dimension.height) {
+            y = dimension.height - height;
+            dy = -5;
+        }
+
+        if (y < 0) {
+            y = 0;
+            dy = 5;
+        }
+
+        boolean collision = collidesWithWizard();
+
+        if (collision) {
+
+            setLocation(); // changing position
+            // panel.addPoints(20);
+
+            // soundManager.playClip("collection", false);
+
+            count++;
+
+        }
 
     }
 
@@ -137,6 +132,13 @@ public class Goblin {
         Rectangle2D.Double wizardRect = wizard.getBoundingRectangle();
 
         return myRect.intersects(wizardRect);
+    }
+
+    public boolean collidesWithFireball() {
+        Rectangle2D.Double myRect = getBoundingRectangle();
+        Rectangle2D.Double fireRect = fireball.getBoundingRectangle();
+
+        return myRect.intersects(fireRect);
     }
 
 }

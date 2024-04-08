@@ -214,6 +214,10 @@ public class GameWindow extends JFrame
 		if (keyCode == KeyEvent.VK_DOWN) {
 			gamePanel.updateWizard(4);
 		}
+
+		if (keyCode == KeyEvent.VK_SPACE) {
+			gamePanel.shootFireball();
+		}
 	}
 
 	public void keyReleased(KeyEvent e) {

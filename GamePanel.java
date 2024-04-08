@@ -18,6 +18,7 @@ public class GamePanel extends JPanel
 	private Wizard wizard;
 	private Troll[] trolls;
 	private Goblin[] goblins;
+	private Fireball fireball;
 	private boolean trollDropped;
 	private boolean goblinsDropped;
 	private boolean isRunning;
@@ -29,6 +30,8 @@ public class GamePanel extends JPanel
 	// private Image backgroundImage;
 
 	private Background background;
+
+	private Graphics2D imageContext;
 
 	private ImageFX imageFX;
 	private ImageFX imageFX2;
@@ -55,15 +58,17 @@ public class GamePanel extends JPanel
 		background = new Background(this, "images/Scroll-Background.png", 96);
 
 		wizard = new Wizard(this, 175, 350);
+		fireball = new Fireball(this, 175, 350);
+
 		trolls = new Troll[3];
-		trolls[0] = new Troll(this, 275, 10, wizard);
-		trolls[1] = new Troll(this, 150, 10, wizard);
-		trolls[2] = new Troll(this, 330, 10, wizard);
+		trolls[0] = new Troll(this, 275, 10, wizard, fireball);
+		trolls[1] = new Troll(this, 150, 10, wizard, fireball);
+		trolls[2] = new Troll(this, 330, 10, wizard, fireball);
 
 		goblins = new Goblin[3];
-		goblins[0] = new Goblin(this, 275, 10, wizard);
-		goblins[1] = new Goblin(this, 150, 10, wizard);
-		goblins[2] = new Goblin(this, 330, 10, wizard);
+		goblins[0] = new Goblin(this, 275, 10, wizard, fireball);
+		goblins[1] = new Goblin(this, 150, 10, wizard, fireball);
+		goblins[2] = new Goblin(this, 330, 10, wizard, fireball);
 
 		imageFX = new TintFX(this);
 		imageFX2 = new GrayScaleFX2(this);
@@ -120,11 +125,16 @@ public class GamePanel extends JPanel
 
 	}
 
+	public void shootFireball() {
+		if (fireball != null && wizard != null)
+			fireball.shoot(imageContext);
+	}
+
 	public void gameRender() {
 
 		// draw the game objects on the image
 
-		Graphics2D imageContext = (Graphics2D) image.getGraphics();
+		imageContext = (Graphics2D) image.getGraphics();
 
 		background.draw(imageContext);
 
