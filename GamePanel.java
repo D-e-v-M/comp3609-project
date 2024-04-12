@@ -19,6 +19,7 @@ public class GamePanel extends JPanel
 	private Troll[] trolls;
 	private Goblin[] goblins;
 	private Fireball fireball;
+	private boolean fireballShoot;
 	private boolean trollDropped;
 	private boolean goblinsDropped;
 	private boolean isRunning;
@@ -57,8 +58,9 @@ public class GamePanel extends JPanel
 
 		background = new Background(this, "images/cave-background.png", 96);
 
-		wizard = new Wizard(this, 175, 350);
 		fireball = new Fireball(this, 175, 350);
+		wizard = new Wizard(this, 175, 350, fireball);
+		fireballShoot = false;
 
 		trolls = new Troll[3];
 		trolls[0] = new Troll(this, 275, 10, wizard, fireball);
@@ -92,6 +94,11 @@ public class GamePanel extends JPanel
 	}
 
 	public void gameUpdate() {
+
+		if (fireballShoot) {
+			fireball.move();
+		}
+
 		/*
 		 * for (int i=0; i<NUM_TROLLS; i++) {
 		 * trolls[i].move();
@@ -125,9 +132,18 @@ public class GamePanel extends JPanel
 
 	}
 
+	// public void shootFireball() {
+	// if (fireball != null && wizard != null) {
+	// fireball.shoot(imageContext);
+	// soundManager.playClip("fireballShoot", false);
+	// }
+	// }
+
 	public void shootFireball() {
-		if (fireball != null && wizard != null) {
-			fireball.shoot(imageContext);
+		if (fireballShoot)
+			fireballShoot = false;
+		else {
+			fireballShoot = true;
 			soundManager.playClip("fireballShoot", false);
 		}
 	}
@@ -145,6 +161,10 @@ public class GamePanel extends JPanel
 
 		if (wizard != null) {
 			wizard.draw(imageContext);
+		}
+
+		if (fireballShoot) {
+			fireball.draw(imageContext);
 		}
 
 		/*
@@ -253,4 +273,5 @@ public class GamePanel extends JPanel
 	public boolean isOnWizard(int x, int y) {
 		return wizard.isOnWizard(x, y);
 	}
+
 }

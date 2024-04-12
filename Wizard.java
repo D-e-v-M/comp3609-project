@@ -16,19 +16,23 @@ public class Wizard {
 	private int dx;
 	private int dy;
 
+	private Fireball fireball;
+
 	private Image wizardImage;
 
-	public Wizard(JPanel p, int xPos, int yPos) {
+	public Wizard(JPanel p, int xPos, int yPos, Fireball fireball) {
 		panel = p;
 
 		x = xPos;
 		y = yPos;
 
-		dx = 0; // set to zero since background moves instead
+		dx = 10; // set to zero since background moves instead
 		dy = 50; // size of vertical movement
 
 		width = 50;
 		height = 50;
+
+		this.fireball = fireball;
 
 		wizardImage = ImageManager.loadImage("images/wizard.png");
 	}
@@ -46,11 +50,17 @@ public class Wizard {
 
 		if (direction == 1) {
 			x = x - dx; // move left
+
+			if (x < -30)
+				x = 380;
 		} else if (direction == 2) {
 			x = x + dx; // move right
+
+			if (x > 380)
+				x = -30;
 		}
 
-		// write code here to move wizard up and down
+		fireball.setX(x);
 
 	}
 
@@ -74,6 +84,10 @@ public class Wizard {
 	 * }
 	 * }
 	 */
+
+	public int getX() {
+		return x;
+	}
 
 	public boolean isOnWizard(int x, int y) {
 		Rectangle2D.Double myRectangle = getBoundingRectangle();

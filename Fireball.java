@@ -9,7 +9,7 @@ import java.awt.Image;
 
 public class Fireball extends Thread {
 
-    private JPanel panel;
+    private GamePanel panel;
     private int x;
     private int y;
     private int width;
@@ -22,10 +22,11 @@ public class Fireball extends Thread {
 
     private Color backgroundColour;
     private Dimension dimension;
+    private Wizard wizard;
 
     private Image fireImage;
 
-    public Fireball(JPanel p, int xPos, int yPos) {
+    public Fireball(GamePanel p, int xPos, int yPos) {
         panel = p;
         dimension = panel.getSize();
         backgroundColour = panel.getBackground();
@@ -33,11 +34,12 @@ public class Fireball extends Thread {
         y = yPos;
 
         dx = 10;
-        dy = 10;
+        dy = 30;
 
-        width = 25;
-        height = 25;
+        width = 50;
+        height = 50;
 
+        // this.wizard = wizard;
         fireImage = ImageManager.loadImage("images/fireball.png");
     }
 
@@ -81,9 +83,11 @@ public class Fireball extends Thread {
 
         y = y - dy;
 
-        if (y < 0) {
-            y = y - 20;
-            x = x + 18;
+        if (y <= 0) {
+            panel.shootFireball();
+
+            y = 350;
+            // x = wizard.getX();
 
             return false;
         }
@@ -91,20 +95,29 @@ public class Fireball extends Thread {
         return true;
     }
 
-    public void shoot(Graphics2D g2) {
-
-        boolean isRunning = true;
-
-        // Fireball not rendering on screen. Need fix
-        try {
-            while (isRunning) {
-                isRunning = move();
-                draw(g2);
-                sleep(10); // increase value of sleep time to slow down ball
-            }
-        } catch (InterruptedException e) {
-        }
+    public void setX(int x) {
+        if (y == 350 || y <= 0)
+            this.x = x;
     }
+
+    // public int getX() {
+    // return x;
+    // }
+
+    // public void shoot(Graphics2D g2) {
+
+    // boolean isRunning = true;
+
+    // // Fireball not rendering on screen. Need fix
+    // try {
+    // while (isRunning) {
+    // isRunning = move();
+    // draw(g2);
+    // sleep(10); // increase value of sleep time to slow down ball
+    // }
+    // } catch (InterruptedException e) {
+    // }
+    // }
 
     /*
      * public void drawBullet() {
