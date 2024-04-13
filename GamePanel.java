@@ -115,6 +115,7 @@ public class GamePanel extends JPanel
 		 * animation2.update();
 		 * animation3.update();
 		 */
+		animation.update();
 	}
 
 	public void updateWizard(int direction) {
@@ -198,6 +199,11 @@ public class GamePanel extends JPanel
 		 * animation3.draw (imageContext);
 		 * }
 		 */
+
+		 
+		if (animation != null) {
+			animation.draw (imageContext);
+		}
 		Graphics2D g2 = (Graphics2D) getGraphics(); // get the graphics context for the panel
 		g2.drawImage(image, 0, 0, 400, 400, null);
 
