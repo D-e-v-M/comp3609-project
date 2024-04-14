@@ -51,7 +51,7 @@ public class Troll {
       setLocation();
 
       dx = 0; // no movement along x-axis
-      dy = 5; // would like the troll to drop down
+      dy = 10; // would like the troll to drop down
 
       this.wizard = wizard;
       this.fireball = fireball;
@@ -98,7 +98,7 @@ public class Troll {
       if (y > height) {
          setLocation();
          soundManager.playClip("appear", false);
-         dy = dy + 1; // speed up troll when it is re-generated at top
+         // dy = dy + 1; // speed up troll when it is re-generated at top
       }
 
    }

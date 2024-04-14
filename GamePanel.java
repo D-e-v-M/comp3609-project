@@ -75,9 +75,9 @@ public class GamePanel extends JPanel
 		imageFX = new TintFX(this);
 		imageFX2 = new GrayScaleFX2(this);
 
-		animation = new FaceAnimation();
-		animation2 = new CatAnimation();
-		animation3 = new StripAnimation();
+		// animation = new FaceAnimation();
+		// animation2 = new CatAnimation();
+		// animation3 = new StripAnimation();
 	}
 
 	public void run() {
@@ -99,15 +99,15 @@ public class GamePanel extends JPanel
 			fireball.move();
 		}
 
+		for (int i = 0; i < NUM_TROLLS; i++) {
+			trolls[i].move();
+		}
+
+		for (int i = 0; i < NUM_GOBLINS; i++) {
+			goblins[i].move();
+		}
+
 		/*
-		 * for (int i=0; i<NUM_TROLLS; i++) {
-		 * trolls[i].move();
-		 * }\
-		 * for (int i=0; i<NUM_GOBLINS; i++) {
-		 * goblins[i].move();
-		 * }
-		 * 
-		 * 
 		 * imageFX.update();
 		 * imageFX2.update();
 		 * 
@@ -115,7 +115,7 @@ public class GamePanel extends JPanel
 		 * animation2.update();
 		 * animation3.update();
 		 */
-		animation.update();
+		// animation.update();
 	}
 
 	public void updateWizard(int direction) {
@@ -168,17 +168,16 @@ public class GamePanel extends JPanel
 			fireball.draw(imageContext);
 		}
 
+		if (trolls != null) {
+			for (int i = 0; i < NUM_TROLLS; i++)
+				trolls[i].draw(imageContext);
+		}
+
+		if (goblins != null) {
+			for (int i = 0; i < NUM_GOBLINS; i++)
+				goblins[i].draw(imageContext);
+		}
 		/*
-		 * if (trolls != null) {
-		 * for (int i=0; i<NUM_TROLLS; i++)
-		 * trolls[i].draw(imageContext);
-		 * }
-		 * 
-		 * if (goblins != null) {
-		 * for (int i=0; i<NUM_GOBLINS; i++)
-		 * goblins[i].draw(imageContext);
-		 * }
-		 * 
 		 * if (imageFX != null) {
 		 * imageFX.draw (imageContext);
 		 * }
@@ -200,10 +199,10 @@ public class GamePanel extends JPanel
 		 * }
 		 */
 
-		 
 		if (animation != null) {
-			animation.draw (imageContext);
+			animation.draw(imageContext);
 		}
+
 		Graphics2D g2 = (Graphics2D) getGraphics(); // get the graphics context for the panel
 		g2.drawImage(image, 0, 0, 400, 400, null);
 
@@ -214,7 +213,7 @@ public class GamePanel extends JPanel
 	public void startGame() { // initialise and start the game thread
 
 		if (gameThread == null) {
-			// soundManager.playClip ("background", true);
+			soundManager.playClip("level1", true);
 			createGameEntities();
 			gameThread = new Thread(this);
 			gameThread.start();

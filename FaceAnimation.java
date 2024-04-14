@@ -1,34 +1,37 @@
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-
 /**
-    The FaceAnimation class creates a face animation containing six frames 
-    based on three images.
-*/
+ * The FaceAnimation class creates a face animation containing six frames
+ * based on three images.
+ */
 public class FaceAnimation {
-	
+
 	Animation animation;
 
-	private int x;		// x position of animation
-	private int y;		// y position of animation
+	private int x; // x position of animation
+	private int y; // y position of animation
 
 	private int width;
 	private int height;
 
-	private int dx;		// increment to move along x-axis
-	private int dy;		// increment to move along y-axis
+	private int dx; // increment to move along x-axis
+	private int dy; // increment to move along y-axis
 
 	public FaceAnimation() {
 
-		animation = new Animation(true);		// loop continuously
+		animation = new Animation(true); // loop continuously
 
-		x = 0;		// set x position
-        	y = 10;		// set y position
-        	dx = 5;		// increment to move along x-axis
-        	dy = 0;		// increment to move along y-axis
+		x = 0; // set x position
+		y = 10; // set y position
+		dx = 4; // increment to move along x-axis
+		dy = 0; // increment to move along y-axis
+
+		width = 180;
+		height = 135;
 
 		// load images for blinking face animation
 
@@ -44,9 +47,7 @@ public class FaceAnimation {
 		Image animImage4L = ImageManager.loadImage("images/dragon4_left.png");
 		Image animImage5L = ImageManager.loadImage("images/dragon5_left.png");
 		Image animImage6L = ImageManager.loadImage("images/dradon6_left.png");
-	
-	
-	
+
 		// create animation object and insert frames
 
 		animation.addFrame(animImage1, 150);
@@ -102,33 +103,45 @@ public class FaceAnimation {
 		animation.addFrame(animImage1, 150);
 	}
 
-
 	public void start() {
 		x = 0;
-        	y = 10;
+		y = 10;
 		animation.start();
 	}
 
-	
 	public void update() {
 		if (!animation.isStillActive())
 			return;
 
 		animation.update();
-		if(x+180>400)
-			dx=-4;
-        if(x<=0)
-		    dx=4;
+
+		if (x + 180 > 400)
+			dx = -5;
+		if (x <= 0)
+			dx = 5;
+
 		x = x + dx;
 		y = y + dy;
+
+		// System.out.println("x: " + x + " dx: " + dx);
 	}
 
-
 	public void draw(Graphics2D g2) {
-		if (!animation.isStillActive())
-			return;
 
-		g2.drawImage(animation.getImage(), x, y, 180, 135, null);
+		/*
+		 * Image offScreenBuffer = new BufferedImage(400, 400,
+		 * BufferedImage.TYPE_INT_ARGB);
+		 * Graphics2D offScreenGraphics = (Graphics2D) offScreenBuffer.getGraphics();
+		 * 
+		 * offScreenGraphics.clearRect(0, 0, width, height);
+		 * 
+		 * if (animation.isStillActive())
+		 * offScreenGraphics.drawImage(animation.getImage(), x, y, width, height, null);
+		 * 
+		 * g2.drawImage(offScreenBuffer, 0, 0, null);
+		 */
+
+		g2.drawImage(animation.getImage(), x, y, width, height, null);
 	}
 
 }

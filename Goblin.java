@@ -115,8 +115,8 @@ public class Goblin {
         }
 
         if (fireCollision) {
-            soundManager.playClip("goblinDeath", false);
             soundManager.playClip("fireballHit", false);
+            soundManager.playClip("goblinDeath", false);
             setLocation();
         }
 

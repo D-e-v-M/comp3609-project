@@ -3,30 +3,29 @@ import java.util.ArrayList;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-
 /**
-    The CatAnimation class creates a wild cat animation containing
-    eight frames. 
-*/
+ * The CatAnimation class creates a wild cat animation containing
+ * eight frames.
+ */
 public class CatAnimation {
-	
+
 	Animation animation;
 
-	private int x;		// x position of animation
-	private int y;		// y position of animation
+	private int x; // x position of animation
+	private int y; // y position of animation
 
 	private int width;
 	private int height;
 
-	private int dx;		// increment to move along x-axis
-	private int dy;		// increment to move along y-axis
+	private int dx; // increment to move along x-axis
+	private int dy; // increment to move along y-axis
 
 	public CatAnimation() {
 
-		animation = new Animation(true);	// loop continuously
+		animation = new Animation(true); // loop continuously
 
-        	dx = 10;	// increment to move along x-axis
-        	dy = 0;		// increment to move along y-axis
+		dx = 10; // increment to move along x-axis
+		dy = 0; // increment to move along y-axis
 
 		// load images for wild cat animation
 
@@ -38,7 +37,7 @@ public class CatAnimation {
 		Image animImage6 = ImageManager.loadImage("images/cat-6.png");
 		Image animImage7 = ImageManager.loadImage("images/cat-7.png");
 		Image animImage8 = ImageManager.loadImage("images/cat-8.png");
-	
+
 		// create animation object and insert frames
 
 		animation.addFrame(animImage1, 100);
@@ -52,14 +51,12 @@ public class CatAnimation {
 
 	}
 
-
 	public void start() {
 		x = 5;
-        	y = 100;
+		y = 100;
 		animation.start();
 	}
 
-	
 	public void update() {
 
 		if (!animation.isStillActive()) {
@@ -74,7 +71,6 @@ public class CatAnimation {
 		if (x > 400)
 			x = 5;
 	}
-
 
 	public void draw(Graphics2D g2) {
 
