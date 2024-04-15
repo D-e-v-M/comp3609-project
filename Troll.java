@@ -28,6 +28,9 @@ public class Troll {
    private Color backgroundColour;
    private Dimension dimension;
 
+   private static int lives;
+   private static int points;
+
    private Random random;
 
    private Wizard wizard;
@@ -49,6 +52,7 @@ public class Troll {
       y = yPos;
 
       setLocation();
+      setLivesAndPoints();
 
       dx = 0; // no movement along x-axis
       dy = 10; // would like the troll to drop down
@@ -86,12 +90,14 @@ public class Troll {
 
       if (wizardCollision) {
          soundManager.playClip("trollHit", false);
+         lives--;
          setLocation();
       }
 
       if (fireCollision) {
          soundManager.playClip("trollDeath", false);
          soundManager.playClip("fireballHit", false);
+         points++;
          setLocation();
       }
 
@@ -128,6 +134,19 @@ public class Troll {
       Rectangle2D.Double fireRect = fireball.getBoundingRectangle();
 
       return myRect.intersects(fireRect);
+   }
+
+   public int getPoints() {
+      return points;
+   }
+
+   public int getLives() {
+      return lives;
+   }
+
+   public void setLivesAndPoints() {
+      points = 0;
+      lives = 5;
    }
 
 }

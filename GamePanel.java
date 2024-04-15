@@ -24,6 +24,11 @@ public class GamePanel extends JPanel
 	private boolean goblinsDropped;
 	private boolean isRunning;
 	private boolean isPaused;
+	private boolean isLevel1;
+	private boolean isLevel2;
+	private boolean isLevel3;
+	private int lives;
+	private int points;
 
 	private Thread gameThread;
 
@@ -75,6 +80,8 @@ public class GamePanel extends JPanel
 		imageFX = new TintFX(this);
 		imageFX2 = new GrayScaleFX2(this);
 
+		points = 0;
+
 		// animation = new FaceAnimation();
 		// animation2 = new CatAnimation();
 		// animation3 = new StripAnimation();
@@ -99,13 +106,24 @@ public class GamePanel extends JPanel
 			fireball.move();
 		}
 
-		for (int i = 0; i < NUM_TROLLS; i++) {
-			trolls[i].move();
+		if (isLevel1 || isLevel2) {
+			for (int i = 0; i < NUM_TROLLS; i++) {
+				trolls[i].move();
+				lives = getLives();
+				points = getPoints();
+			}
 		}
 
-		for (int i = 0; i < NUM_GOBLINS; i++) {
-			goblins[i].move();
+		if (isLevel2) {
+			for (int i = 0; i < NUM_GOBLINS; i++) {
+				goblins[i].move();
+				lives = getLives();
+				points = getPoints();
+			}
 		}
+
+		System.out.println("Points: " + points);
+		System.out.println("Lives: " + lives);
 
 		/*
 		 * imageFX.update();
@@ -168,15 +186,20 @@ public class GamePanel extends JPanel
 			fireball.draw(imageContext);
 		}
 
-		if (trolls != null) {
-			for (int i = 0; i < NUM_TROLLS; i++)
-				trolls[i].draw(imageContext);
+		if (isLevel1 || isLevel2) {
+			if (trolls != null) {
+				for (int i = 0; i < NUM_TROLLS; i++)
+					trolls[i].draw(imageContext);
+			}
 		}
 
-		if (goblins != null) {
-			for (int i = 0; i < NUM_GOBLINS; i++)
-				goblins[i].draw(imageContext);
+		if (isLevel2) {
+			if (goblins != null) {
+				for (int i = 0; i < NUM_GOBLINS; i++)
+					goblins[i].draw(imageContext);
+			}
 		}
+
 		/*
 		 * if (imageFX != null) {
 		 * imageFX.draw (imageContext);
@@ -213,10 +236,12 @@ public class GamePanel extends JPanel
 	public void startGame() { // initialise and start the game thread
 
 		if (gameThread == null) {
-			soundManager.playClip("level1", true);
+			// soundManager.playClip("level1", true);
 			createGameEntities();
 			gameThread = new Thread(this);
 			gameThread.start();
+
+			isLevel1 = true;
 
 			if (animation != null) {
 				animation.start();
@@ -277,6 +302,18 @@ public class GamePanel extends JPanel
 
 	public boolean isOnWizard(int x, int y) {
 		return wizard.isOnWizard(x, y);
+	}
+
+	public int getPoints() {
+		points = trolls[0].getPoints();
+
+		return points;
+	}
+
+	public int getLives() {
+		lives = trolls[0].getLives();
+
+		return lives;
 	}
 
 }
