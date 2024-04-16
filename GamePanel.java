@@ -24,11 +24,14 @@ public class GamePanel extends JPanel
 	private boolean goblinsDropped;
 	private boolean isRunning;
 	private boolean isPaused;
-	private boolean isLevel1;
-	private boolean isLevel2;
-	private boolean isLevel3;
+	public static boolean isLevel1;
+	public static boolean isLevel2;
+	public static boolean isLevel3;
+	public static int levelInterval; // Signals for the space between levels
 	private int lives;
 	private int points;
+	private LevelTimer timer1;
+	private LevelTimer timer2;
 
 	private Thread gameThread;
 
@@ -81,6 +84,7 @@ public class GamePanel extends JPanel
 		imageFX2 = new GrayScaleFX2(this);
 
 		points = 0;
+		levelInterval = 0; // At the start of the game
 
 		// animation = new FaceAnimation();
 		// animation2 = new CatAnimation();
@@ -100,7 +104,19 @@ public class GamePanel extends JPanel
 		}
 	}
 
-	public void gameUpdate() {
+	public void gameUpdate() throws InterruptedException {
+
+		// If requirements to beat level 1 are met
+		if (levelInterval == 1) {
+			timer1 = new LevelTimer();
+			// levelInterval++;
+			// isLevel2 = true;
+		}
+
+		// If requirements to beat level 2 are met
+		if (levelInterval == 3) {
+			timer2 = new LevelTimer();
+		}
 
 		if (fireballShoot) {
 			fireball.move();
@@ -123,14 +139,24 @@ public class GamePanel extends JPanel
 		}
 
 		// Probably need to increase this limit
-		if (points > 30) {
+		// Signals the completion of level 1
+		if (points > 10 && levelInterval == 0) {
 			isLevel1 = false;
-			isLevel2 = true;
+			levelInterval++;
+			// isLevel2 = true;
 			Troll.lives++;
 		}
 
-		System.out.println("Points: " + points);
-		System.out.println("Lives: " + lives);
+		// Signals the completion of level 2
+		if (points > 150 && levelInterval == 2) {
+			isLevel2 = false;
+			levelInterval++;
+			// isLevel2 = true;
+			Troll.lives++;
+		}
+
+		// System.out.println("Points: " + points);
+		// System.out.println("Lives: " + lives);
 
 		/*
 		 * imageFX.update();
