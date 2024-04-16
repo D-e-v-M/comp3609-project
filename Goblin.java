@@ -28,9 +28,6 @@ public class Goblin {
     private Color backgroundColour;
     private Dimension dimension;
 
-    private static int lives;
-    private static int points;
-
     private Random random;
 
     private Wizard wizard;
@@ -107,19 +104,20 @@ public class Goblin {
 
         if (wizardCollision) {
             soundManager.playClip("goblinHit", false);
-
+            Troll.lives--;
             setLocation(); // changing position
             // panel.addPoints(20);
 
             // soundManager.playClip("collection", false);
 
-            count++;
+            // count++;
 
         }
 
         if (fireCollision) {
             soundManager.playClip("fireballHit", false);
             soundManager.playClip("goblinDeath", false);
+            Troll.points++;
             setLocation();
         }
 

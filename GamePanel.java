@@ -122,6 +122,13 @@ public class GamePanel extends JPanel
 			}
 		}
 
+		// Probably need to increase this limit
+		if (points > 30) {
+			isLevel1 = false;
+			isLevel2 = true;
+			Troll.lives++;
+		}
+
 		System.out.println("Points: " + points);
 		System.out.println("Lives: " + lives);
 

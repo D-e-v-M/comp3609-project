@@ -28,8 +28,8 @@ public class Troll {
    private Color backgroundColour;
    private Dimension dimension;
 
-   private static int lives;
-   private static int points;
+   public static int lives;
+   public static int points;
 
    private Random random;
 
