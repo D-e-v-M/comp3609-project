@@ -11,6 +11,7 @@ import java.awt.Graphics2D;
 public class StripAnimation {
 	
 	Animation animation;
+	Animation animation2;
 
 	private int x;		// x position of animation
 	private int y;		// y position of animation
@@ -20,17 +21,24 @@ public class StripAnimation {
 
 	private int dx;		// increment to move along x-axis
 	private int dy;		// increment to move along y-axis
+	Image stripImageRight ;
+		Image stripImageLeft ;
+		Image stripImage ;
 
 	public StripAnimation() {
 
-		animation = new Animation(false);	// run animation once
+		animation = new Animation(true);
+			// run animation once
+			animation2 = new Animation(true);
 
-        	dx = 0;		// increment to move along x-axis
-        	dy = -10;	// increment to move along y-axis
+        	dx = 10;		// increment to move along x-axis
+        	dy = 0;	// increment to move along y-axis
 
 		// load images from strip file
 
-		Image stripImage = ImageManager.loadImage("images/kaboom.gif");
+		stripImageRight = ImageManager.loadImage("images/dragons.png");
+		stripImageLeft = ImageManager.loadImage("images/dragonsL.png");
+		stripImage = stripImageRight;
 
 		int imageWidth = (int) stripImage.getWidth(null) / 6;
 		int imageHeight = stripImage.getHeight(null);
@@ -46,14 +54,33 @@ public class StripAnimation {
 					null);
 
 			animation.addFrame(frameImage, 100);
+
 		}
+		
+		
+
+		for (int i=0; i<6; i++) {
+
+			BufferedImage frameImage = new BufferedImage (imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB);
+			Graphics2D g = (Graphics2D) frameImage.getGraphics();
+     
+			g.drawImage(stripImageLeft, 
+					0, 0, imageWidth, imageHeight,
+					i*imageWidth, 0, (i*imageWidth)+imageWidth, imageHeight,
+					null);
+
+			animation2.addFrame(frameImage, 100);
+
+
+		
 	
 	}
+}
 
 
 	public void start() {
-		x = 250;
-        	y = 250;
+		x = 0;
+        	y = 10;
 		animation.start();
 	}
 
@@ -62,9 +89,25 @@ public class StripAnimation {
 		if (!animation.isStillActive())
 			return;
 
-		animation.update();
+			animation.update();
+			
 		x = x + dx;
 		y = y + dy;
+		if (x+180>= 400)
+		{
+			
+			stripImage=stripImageLeft;
+			dx=-5;
+			
+		}
+			
+			if (x < 0)
+			{
+				
+				dx=5;
+				stripImage=stripImageRight;
+			}
+			
 	}
 
 
@@ -72,7 +115,8 @@ public class StripAnimation {
 		if (!animation.isStillActive())
 			return;
 
-		g2.drawImage(animation.getImage(), x, y, 70, 50, null);
+		g2.drawImage(animation.getImage(), x, y, 180, 150, null);
+		
 	}
 
 }
