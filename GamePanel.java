@@ -118,6 +118,9 @@ public class GamePanel extends JPanel
 			timer2 = new LevelTimer();
 		}
 
+		// The two above if statementsa are at the top to allow the enemies to be
+		// unrendered
+
 		if (fireballShoot) {
 			fireball.move();
 		}
