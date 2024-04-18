@@ -1,6 +1,9 @@
 import javax.swing.JPanel;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
@@ -227,6 +230,14 @@ public class GamePanel extends JPanel
 		if (fireballShoot) {
 			fireball.draw(imageContext);
 		}
+
+		String pointsString = Integer.toString(points);
+		Font font = new Font("MS Gothic", Font.PLAIN, 16);
+		imageContext.setFont(font);
+		FontMetrics fm = imageContext.getFontMetrics();
+		int pointsWidth = fm.stringWidth(pointsString);
+		imageContext.setColor(Color.WHITE);
+		imageContext.drawString(pointsString, getWidth() - pointsWidth - 5, fm.getAscent() + 5);
 
 		if (isLevel1 || isLevel2) {
 			if (trolls != null) {
