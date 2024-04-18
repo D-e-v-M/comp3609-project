@@ -33,12 +33,14 @@ public class GameWindow extends JFrame
 
 	private JPanel mainPanel;
 	private GamePanel gamePanel;
+	private HeartPanel heartPanel;
 
 	@SuppressWarnings({ "unchecked" })
 	public GameWindow() {
 
 		setTitle("A Game With Aliens, Image Effects, and Animations");
-		setSize(500, 575);
+		setSize(800, 800);
+		setLocationRelativeTo(null);
 
 		// create user interface objects
 
@@ -88,9 +90,16 @@ public class GameWindow extends JFrame
 
 		GridLayout gridLayout;
 
+		// create the heartPanel for the lives
+
+		heartPanel = new HeartPanel();
+		heartPanel.setPreferredSize(new Dimension(400, 60));
+		heartPanel.setAlignmentX(BOTTOM_ALIGNMENT);
+		heartPanel.setBackground(Color.BLACK);
+
 		// create the gamePanel for game entities
 
-		gamePanel = new GamePanel();
+		gamePanel = new GamePanel(heartPanel);
 		gamePanel.setPreferredSize(new Dimension(400, 400));
 
 		// create infoPanel
@@ -130,6 +139,7 @@ public class GameWindow extends JFrame
 
 		mainPanel.add(infoPanel);
 		mainPanel.add(gamePanel);
+		mainPanel.add(heartPanel);
 		mainPanel.add(buttonPanel);
 		mainPanel.setBackground(Color.PINK);
 

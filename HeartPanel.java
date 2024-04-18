@@ -4,12 +4,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class HeartPanel extends JPanel {
-    private int hearts = 7;
+    private int hearts = 5;
 
     private Image heartImage;
 
     public HeartPanel() {
-        heartImage = ImageManager.loadImage("images/ship.png");
+        heartImage = ImageManager.loadImage("images/heart.png");
     }
 
     @Override
@@ -45,8 +45,13 @@ public class HeartPanel extends JPanel {
         }
     }
 
+    public void addHeart() {
+        hearts++;
+        repaint();
+    }
+
     public void setHearts() {
-        hearts = 7;
+        hearts = 5;
         repaint();
     }
 

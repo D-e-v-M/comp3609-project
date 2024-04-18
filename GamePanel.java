@@ -42,6 +42,8 @@ public class GamePanel extends JPanel
 
 	private Graphics2D imageContext;
 
+	private HeartPanel heartPanel;
+
 	private ImageFX imageFX;
 	private ImageFX imageFX2;
 
@@ -49,13 +51,15 @@ public class GamePanel extends JPanel
 	private CatAnimation animation2;
 	private StripAnimation animation3;
 
-	public GamePanel() {
+	public GamePanel(HeartPanel heartPanel) {
 		wizard = null;
 		trolls = null;
 		trollDropped = false;
 		isRunning = false;
 		isPaused = false;
 		soundManager = SoundManager.getInstance();
+
+		this.heartPanel = heartPanel;
 
 		// backgroundImage = ImageManager.loadImage ("images/Background.jpg");
 
@@ -71,14 +75,14 @@ public class GamePanel extends JPanel
 		fireballShoot = false;
 
 		trolls = new Troll[3];
-		trolls[0] = new Troll(this, 275, 10, wizard, fireball);
-		trolls[1] = new Troll(this, 150, 10, wizard, fireball);
-		trolls[2] = new Troll(this, 330, 10, wizard, fireball);
+		trolls[0] = new Troll(this, 275, 10, wizard, fireball, heartPanel);
+		trolls[1] = new Troll(this, 150, 10, wizard, fireball, heartPanel);
+		trolls[2] = new Troll(this, 330, 10, wizard, fireball, heartPanel);
 
 		goblins = new Goblin[3];
-		goblins[0] = new Goblin(this, 275, 10, wizard, fireball);
-		goblins[1] = new Goblin(this, 150, 10, wizard, fireball);
-		goblins[2] = new Goblin(this, 330, 10, wizard, fireball);
+		goblins[0] = new Goblin(this, 275, 10, wizard, fireball, heartPanel);
+		goblins[1] = new Goblin(this, 150, 10, wizard, fireball, heartPanel);
+		goblins[2] = new Goblin(this, 330, 10, wizard, fireball, heartPanel);
 
 		imageFX = new TintFX(this);
 		imageFX2 = new GrayScaleFX2(this);
@@ -148,6 +152,7 @@ public class GamePanel extends JPanel
 			levelInterval++;
 			// isLevel2 = true;
 			Troll.lives++;
+			heartPanel.addHeart();
 		}
 
 		// Signals the completion of level 2
@@ -156,6 +161,7 @@ public class GamePanel extends JPanel
 			levelInterval++;
 			// isLevel2 = true;
 			Troll.lives++;
+			heartPanel.addHeart();
 		}
 
 		// System.out.println("Points: " + points);
@@ -301,6 +307,7 @@ public class GamePanel extends JPanel
 		if (gameThread == null || !isRunning) {
 			// soundManager.playClip ("background", true);
 			createGameEntities();
+			heartPanel.setHearts();
 			gameThread = new Thread(this);
 			gameThread.start();
 

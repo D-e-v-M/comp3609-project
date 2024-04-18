@@ -12,6 +12,7 @@ import java.awt.Image;
 public class Troll {
 
    private JPanel panel;
+   private HeartPanel heartPanel;
 
    private int x;
    private int y;
@@ -38,8 +39,9 @@ public class Troll {
    private SoundManager soundManager;
    private Image trollImage;
 
-   public Troll(JPanel p, int xPos, int yPos, Wizard wizard, Fireball fireball) {
+   public Troll(JPanel p, int xPos, int yPos, Wizard wizard, Fireball fireball, HeartPanel heartPanel) {
       panel = p;
+      this.heartPanel = heartPanel;
       dimension = panel.getSize();
       backgroundColour = panel.getBackground();
 
@@ -91,6 +93,7 @@ public class Troll {
       if (wizardCollision) {
          soundManager.playClip("trollHit", false);
          lives--;
+         heartPanel.loseHearts();
          setLocation();
       }
 

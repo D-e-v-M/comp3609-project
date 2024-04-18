@@ -12,6 +12,7 @@ import java.awt.Image;
 public class Goblin {
 
     private JPanel panel;
+    private HeartPanel heartPanel;
 
     private int x;
     private int y;
@@ -37,8 +38,9 @@ public class Goblin {
     private Image goblinImage;
     private int count = 0;
 
-    public Goblin(JPanel p, int xPos, int yPos, Wizard wizard, Fireball fireball) {
+    public Goblin(JPanel p, int xPos, int yPos, Wizard wizard, Fireball fireball, HeartPanel heartPanel) {
         panel = p;
+        this.heartPanel = heartPanel;
         dimension = panel.getSize();
         backgroundColour = panel.getBackground();
 
@@ -105,6 +107,7 @@ public class Goblin {
         if (wizardCollision) {
             soundManager.playClip("goblinHit", false);
             Troll.lives--;
+            heartPanel.loseHearts();
             setLocation(); // changing position
             // panel.addPoints(20);
 
