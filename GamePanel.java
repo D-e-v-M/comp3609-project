@@ -115,14 +115,14 @@ public class GamePanel extends JPanel
 
 		// If requirements to beat level 1 are met
 		if (levelInterval == 1) {
-			timer1 = new LevelTimer();
+			timer1 = new LevelTimer(5000);
 			// levelInterval++;
 			// isLevel2 = true;
 		}
 
 		// If requirements to beat level 2 are met
 		if (levelInterval == 3) {
-			timer2 = new LevelTimer();
+			timer2 = new LevelTimer(5000);
 		}
 
 		// The two above if statementsa are at the top to allow the enemies to be
