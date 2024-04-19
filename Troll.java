@@ -113,7 +113,7 @@ public class Troll {
          spikeCollision = collidesWithSpike(spike);
 
          if (spikeCollision) {
-            soundManager.playClip("goblinDeath", false);
+            soundManager.playClip("trollDeath", false);
             setLocation();
          }
       }
@@ -122,14 +122,14 @@ public class Troll {
          spikeCollision = collidesWithSpike(spike);
 
          if (spikeCollision) {
-            soundManager.playClip("goblinDeath", false);
+            soundManager.playClip("trollDeath", false);
             setLocation();
          }
       }
 
       if (y > height) {
          setLocation();
-         soundManager.playClip("appear", false);
+         // soundManager.playClip("appear", false);
          // dy = dy + 1; // speed up troll when it is re-generated at top
       }
 
