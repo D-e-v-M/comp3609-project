@@ -127,7 +127,9 @@ public class GamePanel extends JPanel
 		}
 
 		// If requirements to beat level 2 are met
-		if (levelInterval == 3) {
+		if (levelInterval == 5) {
+			levelInterval++;
+			isLevel3 = true;
 			timer2 = new LevelTimer(5000);
 		}
 
@@ -165,16 +167,18 @@ public class GamePanel extends JPanel
 		// Signals the completion of level 1
 		if (points > 10 && levelInterval == 0) {
 			isLevel1 = false;
-			levelInterval++;
+			levelInterval = 1;
 			// isLevel2 = true;
 			Troll.lives++;
 			heartPanel.addHeart();
 		}
 
+		System.out.println(levelInterval);
+
 		// Signals the completion of level 2
-		if (points > 150 && levelInterval == 2) {
+		if (points > 50 && levelInterval == 4 && isLevel2) {
 			isLevel2 = false;
-			levelInterval++;
+			levelInterval = 5;
 			// isLevel2 = true;
 			Troll.lives++;
 			heartPanel.addHeart();
