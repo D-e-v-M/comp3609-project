@@ -36,10 +36,13 @@ public class Troll {
 
    private Wizard wizard;
    private Fireball fireball;
+   private SpikeManager spikeManager;
+
    private SoundManager soundManager;
    private Image trollImage;
 
-   public Troll(JPanel p, int xPos, int yPos, Wizard wizard, Fireball fireball, HeartPanel heartPanel) {
+   public Troll(JPanel p, int xPos, int yPos, Wizard wizard, Fireball fireball, HeartPanel heartPanel,
+         SpikeManager spikeManager) {
       panel = p;
       this.heartPanel = heartPanel;
       dimension = panel.getSize();
@@ -61,6 +64,7 @@ public class Troll {
 
       this.wizard = wizard;
       this.fireball = fireball;
+      this.spikeManager = spikeManager;
 
       trollImage = ImageManager.loadImage("images/troll.png");
       soundManager = SoundManager.getInstance();
@@ -89,6 +93,7 @@ public class Troll {
       int height = panel.getHeight();
       boolean wizardCollision = collidesWithWizard();
       boolean fireCollision = collidesWithFireball();
+      boolean spikeCollision;
 
       if (wizardCollision) {
          soundManager.playClip("trollHit", false);
@@ -102,6 +107,24 @@ public class Troll {
          soundManager.playClip("fireballHit", false);
          points++;
          setLocation();
+      }
+
+      for (Spike spike : spikeManager.leftSpikes) {
+         spikeCollision = collidesWithSpike(spike);
+
+         if (spikeCollision) {
+            soundManager.playClip("goblinDeath", false);
+            setLocation();
+         }
+      }
+
+      for (Spike spike : spikeManager.rightSpikes) {
+         spikeCollision = collidesWithSpike(spike);
+
+         if (spikeCollision) {
+            soundManager.playClip("goblinDeath", false);
+            setLocation();
+         }
       }
 
       if (y > height) {
@@ -137,6 +160,13 @@ public class Troll {
       Rectangle2D.Double fireRect = fireball.getBoundingRectangle();
 
       return myRect.intersects(fireRect);
+   }
+
+   public boolean collidesWithSpike(Spike spike) {
+      Rectangle2D.Double myRect = getBoundingRectangle();
+      Rectangle2D.Double spikeRect = spike.getBoundingRectangle();
+
+      return myRect.intersects(spikeRect);
    }
 
    public int getPoints() {

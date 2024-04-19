@@ -109,6 +109,7 @@ public class Background {
 			System.out.println("Background change: bgY = " + bgY);
 			bg1Y = 0;
 			bg2Y = bgImageHeight;
+			GamePanel.isBackgroundChange = true;
 		}
 	}
 
@@ -125,6 +126,7 @@ public class Background {
 			System.out.println("Background change: bgY = " + bgY);
 			bg1Y = bgImageHeight * -1;
 			bg2Y = bgImageHeight;
+			GamePanel.isBackgroundChange = true;
 		}
 	}
 

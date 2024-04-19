@@ -33,12 +33,14 @@ public class Goblin {
 
     private Wizard wizard;
     private Fireball fireball;
+    private SpikeManager spikeManager;
 
     private SoundManager soundManager;
     private Image goblinImage;
     private int count = 0;
 
-    public Goblin(JPanel p, int xPos, int yPos, Wizard wizard, Fireball fireball, HeartPanel heartPanel) {
+    public Goblin(JPanel p, int xPos, int yPos, Wizard wizard, Fireball fireball, HeartPanel heartPanel,
+            SpikeManager spikeManager) {
         panel = p;
         this.heartPanel = heartPanel;
         dimension = panel.getSize();
@@ -59,6 +61,7 @@ public class Goblin {
 
         this.wizard = wizard;
         this.fireball = fireball;
+        this.spikeManager = spikeManager;
 
         goblinImage = ImageManager.loadImage("images/goblin.png");
         soundManager = SoundManager.getInstance();

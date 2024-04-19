@@ -31,6 +31,7 @@ public class GamePanel extends JPanel
 	public static boolean isLevel2;
 	public static boolean isLevel3;
 	public static int levelInterval; // Signals for the space between levels
+	public static boolean isBackgroundChange;
 	private int lives;
 	private int points;
 	private LevelTimer timer1;
@@ -50,6 +51,8 @@ public class GamePanel extends JPanel
 	private ImageFX imageFX;
 	private ImageFX imageFX2;
 
+	private SpikeManager spikeManager;
+
 	private FaceAnimation animation;
 	private CatAnimation animation2;
 	private StripAnimation animation3;
@@ -60,6 +63,8 @@ public class GamePanel extends JPanel
 		trollDropped = false;
 		isRunning = false;
 		isPaused = false;
+		isBackgroundChange = true;
+		fireballShoot = false;
 		soundManager = SoundManager.getInstance();
 
 		this.heartPanel = heartPanel;
@@ -73,19 +78,20 @@ public class GamePanel extends JPanel
 
 		background = new Background(this, "images/cave-background.png", 96);
 
+		spikeManager = new SpikeManager();
+
 		fireball = new Fireball(this, 175, 350);
-		wizard = new Wizard(this, 175, 350, fireball);
-		fireballShoot = false;
+		wizard = new Wizard(this, 175, 350, fireball, heartPanel, spikeManager);
 
 		trolls = new Troll[3];
-		trolls[0] = new Troll(this, 275, 10, wizard, fireball, heartPanel);
-		trolls[1] = new Troll(this, 150, 10, wizard, fireball, heartPanel);
-		trolls[2] = new Troll(this, 330, 10, wizard, fireball, heartPanel);
+		trolls[0] = new Troll(this, 275, 10, wizard, fireball, heartPanel, spikeManager);
+		trolls[1] = new Troll(this, 150, 10, wizard, fireball, heartPanel, spikeManager);
+		trolls[2] = new Troll(this, 330, 10, wizard, fireball, heartPanel, spikeManager);
 
 		goblins = new Goblin[3];
-		goblins[0] = new Goblin(this, 275, 10, wizard, fireball, heartPanel);
-		goblins[1] = new Goblin(this, 150, 10, wizard, fireball, heartPanel);
-		goblins[2] = new Goblin(this, 330, 10, wizard, fireball, heartPanel);
+		goblins[0] = new Goblin(this, 275, 10, wizard, fireball, heartPanel, spikeManager);
+		goblins[1] = new Goblin(this, 150, 10, wizard, fireball, heartPanel, spikeManager);
+		goblins[2] = new Goblin(this, 330, 10, wizard, fireball, heartPanel, spikeManager);
 
 		imageFX = new TintFX(this);
 		imageFX2 = new GrayScaleFX2(this);
@@ -146,6 +152,13 @@ public class GamePanel extends JPanel
 				lives = getLives();
 				points = getPoints();
 			}
+		}
+
+		if (isBackgroundChange) {
+			spikeManager.leftSpikes.clear();
+			spikeManager.rightSpikes.clear();
+			spikeManager.spawnSpikes();
+			isBackgroundChange = false;
 		}
 
 		// Probably need to increase this limit
@@ -231,6 +244,7 @@ public class GamePanel extends JPanel
 			fireball.draw(imageContext);
 		}
 
+		// Scoreboard
 		String pointsString = Integer.toString(points);
 		Font font = new Font("MS Gothic", Font.PLAIN, 16);
 		imageContext.setFont(font);
@@ -238,6 +252,14 @@ public class GamePanel extends JPanel
 		int pointsWidth = fm.stringWidth(pointsString);
 		imageContext.setColor(Color.WHITE);
 		imageContext.drawString(pointsString, getWidth() - pointsWidth - 5, fm.getAscent() + 5);
+
+		for (Spike spike : spikeManager.leftSpikes) {
+			spike.draw(imageContext);
+		}
+
+		for (Spike spike : spikeManager.rightSpikes) {
+			spike.draw(imageContext);
+		}
 
 		if (isLevel1 || isLevel2) {
 			if (trolls != null) {

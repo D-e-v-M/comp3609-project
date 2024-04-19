@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import javax.swing.JPanel;
 import java.awt.Image;
+import java.util.ArrayList;
 
 public class Wizard {
 
@@ -17,10 +18,13 @@ public class Wizard {
 	private int dy;
 
 	private Fireball fireball;
+	private SpikeManager spikeManager;
 
+	private HeartPanel heartPanel;
+	private SoundManager soundManager;
 	private Image wizardImage;
 
-	public Wizard(JPanel p, int xPos, int yPos, Fireball fireball) {
+	public Wizard(JPanel p, int xPos, int yPos, Fireball fireball, HeartPanel heartPanel, SpikeManager spikeManager) {
 		panel = p;
 
 		x = xPos;
@@ -33,7 +37,11 @@ public class Wizard {
 		height = 50;
 
 		this.fireball = fireball;
+		this.spikeManager = spikeManager;
 
+		this.heartPanel = heartPanel;
+
+		soundManager = SoundManager.getInstance();
 		wizardImage = ImageManager.loadImage("images/wizard.png");
 	}
 
@@ -61,6 +69,30 @@ public class Wizard {
 		}
 
 		fireball.setX(x);
+
+		boolean spikeCollision;
+
+		for (Spike spike : spikeManager.leftSpikes) {
+			spikeCollision = collidesWithSpike(spike);
+
+			if (spikeCollision) {
+				Troll.lives--;
+				heartPanel.loseHearts();
+				soundManager.playClip("objectHit", false);
+				x = x + 50;
+			}
+		}
+
+		for (Spike spike : spikeManager.rightSpikes) {
+			spikeCollision = collidesWithSpike(spike);
+
+			if (spikeCollision) {
+				Troll.lives--;
+				heartPanel.loseHearts();
+				soundManager.playClip("objectHit", false);
+				x = x - 50;
+			}
+		}
 
 	}
 
@@ -96,6 +128,13 @@ public class Wizard {
 
 	public Rectangle2D.Double getBoundingRectangle() {
 		return new Rectangle2D.Double(x, y, width, height);
+	}
+
+	public boolean collidesWithSpike(Spike spike) {
+		Rectangle2D.Double myRect = getBoundingRectangle();
+		Rectangle2D.Double spikeRect = spike.getBoundingRectangle();
+
+		return myRect.intersects(spikeRect);
 	}
 
 }
