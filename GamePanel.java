@@ -173,8 +173,6 @@ public class GamePanel extends JPanel
 			heartPanel.addHeart();
 		}
 
-		System.out.println(levelInterval);
-
 		// Signals the completion of level 2
 		if (points > 50 && levelInterval == 4 && isLevel2) {
 			isLevel2 = false;
