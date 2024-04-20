@@ -203,7 +203,7 @@ public class GamePanel extends JPanel
 		 * animation2.update();
 		 * animation3.update();
 		 */
-		// animation.update();
+		// animation3.update();
 	}
 
 	public void updateWizard(int direction) {
@@ -309,8 +309,8 @@ public class GamePanel extends JPanel
 		 * }
 		 */
 
-		if (animation != null) {
-			animation.draw(imageContext);
+		if (animation3 != null) {
+			animation3.draw(imageContext);
 		}
 
 		if (gameover) {
