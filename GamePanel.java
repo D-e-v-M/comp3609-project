@@ -36,6 +36,7 @@ public class GamePanel extends JPanel
 	private int points;
 	private LevelTimer timer1;
 	private LevelTimer timer2;
+	private boolean gameover;
 
 	private Thread gameThread;
 
@@ -65,6 +66,7 @@ public class GamePanel extends JPanel
 		isPaused = false;
 		isBackgroundChange = true;
 		fireballShoot = false;
+		gameover = false;
 		soundManager = SoundManager.getInstance();
 
 		this.heartPanel = heartPanel;
@@ -154,6 +156,12 @@ public class GamePanel extends JPanel
 				lives = getLives();
 				points = getPoints();
 			}
+		}
+
+		if (Troll.lives <= 0) {
+			gameover = true;
+			gameRender();
+			gameover();
 		}
 
 		if (isBackgroundChange) {
@@ -303,6 +311,16 @@ public class GamePanel extends JPanel
 			animation.draw(imageContext);
 		}
 
+		if (gameover) {
+			imageContext.setColor(new Color(255, 0, 0, 100)); // Red color with some transparency
+			imageContext.fillRect(0, 0, getWidth(), getHeight());
+			font = new Font("MS Gothic", Font.PLAIN, 28);
+			imageContext.setFont(font);
+			fm = imageContext.getFontMetrics();
+			imageContext.setColor(Color.WHITE);
+			imageContext.drawString("GAME OVER", (getWidth() / 2) - 60, fm.getAscent());
+		}
+
 		Graphics2D g2 = (Graphics2D) getGraphics(); // get the graphics context for the panel
 		g2.drawImage(image, 0, 0, 400, 400, null);
 
@@ -343,6 +361,7 @@ public class GamePanel extends JPanel
 			// soundManager.playClip ("background", true);
 			createGameEntities();
 			heartPanel.setHearts();
+			gameover = false;
 			gameThread = new Thread(this);
 			gameThread.start();
 
@@ -372,6 +391,15 @@ public class GamePanel extends JPanel
 	public void endGame() { // end the game thread
 		isRunning = false;
 		// soundManager.stopClip ("background");
+	}
+
+	public void gameover() {
+		isPaused = true;
+		isRunning = false;
+		// soundManager.stopClip("background");
+		soundManager.playClip("wizardDeath", false);
+		soundManager.playClip("gameover", false);
+		// soundManager.playClip("shipDeath", false);
 	}
 
 	public void shootCat() {

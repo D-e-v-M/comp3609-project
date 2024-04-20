@@ -108,15 +108,14 @@ public class Goblin {
         boolean fireCollision = collidesWithFireball();
 
         if (wizardCollision) {
-            soundManager.playClip("goblinHit", false);
+
             Troll.lives--;
             heartPanel.loseHearts();
+
+            if (Troll.lives > 0)
+                soundManager.playClip("goblinHit", false);
+
             setLocation(); // changing position
-            // panel.addPoints(20);
-
-            // soundManager.playClip("collection", false);
-
-            // count++;
 
         }
 

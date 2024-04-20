@@ -49,6 +49,12 @@ public class SoundManager { // a Singleton class
 		clip = loadClip("sounds/fireball-shoot.wav");
 		clips.put("fireballShoot", clip);
 
+		clip = loadClip("sounds/wizard-death.wav");
+		clips.put("wizardDeath", clip);
+
+		clip = loadClip("sounds/gameover.wav");
+		clips.put("gameover", clip);
+
 		volume = 1.0f;
 	}
 

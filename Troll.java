@@ -96,9 +96,12 @@ public class Troll {
       boolean spikeCollision;
 
       if (wizardCollision) {
-         soundManager.playClip("trollHit", false);
          lives--;
          heartPanel.loseHearts();
+
+         if (lives > 0)
+            soundManager.playClip("trollHit", false);
+
          setLocation();
       }
 
