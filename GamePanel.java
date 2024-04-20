@@ -98,6 +98,8 @@ public class GamePanel extends JPanel
 		imageFX = new TintFX(this);
 		imageFX2 = new GrayScaleFX2(this);
 
+		spikeManager.spawnSpikes();
+
 		points = 0;
 		levelInterval = 0; // At the start of the game
 
@@ -312,7 +314,7 @@ public class GamePanel extends JPanel
 		}
 
 		if (gameover) {
-			imageContext.setColor(new Color(255, 0, 0, 100)); // Red color with some transparency
+			imageContext.setColor(new Color(255, 0, 0, 100));
 			imageContext.fillRect(0, 0, getWidth(), getHeight());
 			font = new Font("MS Gothic", Font.PLAIN, 28);
 			imageContext.setFont(font);
@@ -364,6 +366,10 @@ public class GamePanel extends JPanel
 			gameover = false;
 			gameThread = new Thread(this);
 			gameThread.start();
+
+			isLevel2 = false;
+			isLevel3 = false;
+			isLevel1 = true;
 
 			if (animation != null) {
 				animation.start();
