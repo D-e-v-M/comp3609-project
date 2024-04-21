@@ -22,6 +22,7 @@ public class GamePanel extends JPanel
 	private Troll[] trolls;
 	private Goblin[] goblins;
 	private Fireball fireball;
+	private DragonFireball[] dragonFireballs;
 	private boolean fireballShoot;
 	private boolean trollDropped;
 	private boolean goblinsDropped;
@@ -36,7 +37,6 @@ public class GamePanel extends JPanel
 	private int points;
 	private LevelTimer timer1;
 	private LevelTimer timer2;
-	private boolean gameover;
 
 	private Thread gameThread;
 
@@ -56,7 +56,7 @@ public class GamePanel extends JPanel
 
 	private FaceAnimation animation;
 	private CatAnimation animation2;
-	private StripAnimation animation3;
+	private Dragon dragon;
 
 	public GamePanel(HeartPanel heartPanel) {
 		wizard = null;
@@ -66,7 +66,6 @@ public class GamePanel extends JPanel
 		isPaused = false;
 		isBackgroundChange = true;
 		fireballShoot = false;
-		gameover = false;
 		soundManager = SoundManager.getInstance();
 
 		this.heartPanel = heartPanel;
@@ -83,6 +82,10 @@ public class GamePanel extends JPanel
 		spikeManager = new SpikeManager();
 
 		fireball = new Fireball(this, 175, 350);
+		dragonFireballs= new DragonFireball[3];
+		dragonFireballs[0] = new DragonFireball(this, 160, 0);
+		dragonFireballs[1] = new DragonFireball(this, 175, 0);
+		dragonFireballs[2] = new DragonFireball(this, 180, 0);
 		wizard = new Wizard(this, 175, 350, fireball, heartPanel, spikeManager);
 
 		trolls = new Troll[3];
@@ -98,14 +101,12 @@ public class GamePanel extends JPanel
 		imageFX = new TintFX(this);
 		imageFX2 = new GrayScaleFX2(this);
 
-		spikeManager.spawnSpikes();
-
 		points = 0;
 		levelInterval = 0; // At the start of the game
 
 		// animation = new FaceAnimation();
 		// animation2 = new CatAnimation();
-		// animation3 = new StripAnimation();
+		dragon = new Dragon(this,dragonFireballs,wizard,fireball,heartPanel);
 	}
 
 	public void run() {
@@ -160,12 +161,6 @@ public class GamePanel extends JPanel
 			}
 		}
 
-		if (Troll.lives <= 0) {
-			gameover = true;
-			gameRender();
-			gameover();
-		}
-
 		if (isBackgroundChange) {
 			spikeManager.leftSpikes.clear();
 			spikeManager.rightSpikes.clear();
@@ -203,7 +198,10 @@ public class GamePanel extends JPanel
 		 * animation2.update();
 		 * animation3.update();
 		 */
-		// animation3.update();
+		dragon.update();
+		dragonFireballs[0].move();
+		dragonFireballs[1].move();
+		dragonFireballs[2].move();
 	}
 
 	public void updateWizard(int direction) {
@@ -309,20 +307,14 @@ public class GamePanel extends JPanel
 		 * }
 		 */
 
-		if (animation3 != null) {
-			animation3.draw(imageContext);
+		if (dragon != null) {
+			dragon.draw(imageContext);
 		}
 
-		if (gameover) {
-			imageContext.setColor(new Color(255, 0, 0, 100));
-			imageContext.fillRect(0, 0, getWidth(), getHeight());
-			font = new Font("MS Gothic", Font.PLAIN, 28);
-			imageContext.setFont(font);
-			fm = imageContext.getFontMetrics();
-			imageContext.setColor(Color.WHITE);
-			imageContext.drawString("GAME OVER", (getWidth() / 2) - 60, fm.getAscent());
+		if (dragonFireballs != null) {
+			for (int i = 0; i < 3; i++)
+				dragonFireballs[i].draw(imageContext);
 		}
-
 		Graphics2D g2 = (Graphics2D) getGraphics(); // get the graphics context for the panel
 		g2.drawImage(image, 0, 0, 400, 400, null);
 
@@ -348,8 +340,8 @@ public class GamePanel extends JPanel
 				animation2.start();
 			}
 
-			if (animation3 != null) {
-				animation3.start();
+			if (dragon != null) {
+				dragon.start();
 			}
 		}
 
@@ -363,13 +355,8 @@ public class GamePanel extends JPanel
 			// soundManager.playClip ("background", true);
 			createGameEntities();
 			heartPanel.setHearts();
-			gameover = false;
 			gameThread = new Thread(this);
 			gameThread.start();
-
-			isLevel2 = false;
-			isLevel3 = false;
-			isLevel1 = true;
 
 			if (animation != null) {
 				animation.start();
@@ -379,8 +366,8 @@ public class GamePanel extends JPanel
 				animation2.start();
 			}
 
-			if (animation3 != null) {
-				animation3.start();
+			if (dragon != null) {
+				dragon.start();
 			}
 		}
 	}
@@ -399,18 +386,9 @@ public class GamePanel extends JPanel
 		// soundManager.stopClip ("background");
 	}
 
-	public void gameover() {
-		isPaused = true;
-		isRunning = false;
-		// soundManager.stopClip("background");
-		soundManager.playClip("wizardDeath", false);
-		soundManager.playClip("gameover", false);
-		// soundManager.playClip("shipDeath", false);
-	}
-
-	public void shootCat() {
-		animation3.start();
-	}
+	//public void shootCat() {
+	//	animation3.start();
+	//}
 
 	public boolean isOnWizard(int x, int y) {
 		return wizard.isOnWizard(x, y);
