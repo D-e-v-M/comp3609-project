@@ -116,7 +116,7 @@ public class Dragon {
         if (fireCollision) {
                 soundManager.playClip("sounds/fireball-collision.wav", false);
                 points++;
-                if(points>=1)
+                if(points>=15)
                     killDezmond();
             
             }
@@ -142,7 +142,7 @@ public class Dragon {
 	}
     public void killDezmond(){
         soundManager.playClip("sounds/dragon-death.wav", false);
-        //animation.stop();
+        animation.stop();
 
     }
 

@@ -86,7 +86,7 @@ public class GamePanel extends JPanel
 		dragonFireballs[0] = new DragonFireball(this, 160, 0);
 		dragonFireballs[1] = new DragonFireball(this, 175, 0);
 		dragonFireballs[2] = new DragonFireball(this, 180, 0);
-		wizard = new Wizard(this, 175, 350, fireball, heartPanel, spikeManager);
+		wizard = new Wizard(this, 175, 350, dragonFireballs,fireball, heartPanel, spikeManager);
 
 		trolls = new Troll[3];
 		trolls[0] = new Troll(this, 275, 10, wizard, fireball, heartPanel, spikeManager);

@@ -99,10 +99,7 @@ public class DragonFireball extends Thread {
         y=yval;
      }
 
-    public void setX(int x) {
-        if (y == 350 || y <= 0)
-            this.x = x;
-    }
+
 
     // public int getX() {
     // return x;
