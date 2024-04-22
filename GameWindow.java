@@ -194,7 +194,7 @@ public class GameWindow extends JFrame
 			gamePanel.startNewGame();
 
 		if (command.equals(focusB.getText()))
-			gamePanel.shootCat();
+			//gamePanel.shootCat();
 
 		if (command.equals(exitB.getText()))
 			System.exit(0);

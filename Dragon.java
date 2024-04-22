@@ -115,9 +115,14 @@ public class Dragon {
 
         if (fireCollision) {
                 soundManager.playClip("sounds/fireball-collision.wav", false);
-                points++;
-                if(points>=15)
-                    killDezmond();
+                Troll.points++;
+				points++;
+                if(points>=5)
+				{
+					killDezmond();
+					System.out.println(points);
+				}
+                    
             
             }
 			animation.update();
