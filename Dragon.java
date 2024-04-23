@@ -111,7 +111,7 @@ public class Dragon {
 			soundManager.playClip("fireballHit", false);
 			Troll.points++;
 			points++;
-			if (points >= 5) {
+			if (points >= 10) {
 				killDezmond();
 				System.out.println(points);
 			}

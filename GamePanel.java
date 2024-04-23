@@ -175,7 +175,7 @@ public class GamePanel extends JPanel
 
 		// Probably need to increase this limit
 		// Signals the completion of level 1
-		if (points > 10 && levelInterval == 0) {
+		if (points >= 50 && levelInterval == 0) {
 			isLevel1 = false;
 			levelInterval = 1;
 
@@ -186,7 +186,7 @@ public class GamePanel extends JPanel
 		}
 
 		// Signals the completion of level 2
-		if (points > 50 && levelInterval == 2 && isLevel2) {
+		if (points >= 150 && levelInterval == 2 && isLevel2) {
 			isLevel2 = false;
 			levelInterval = 3;
 
