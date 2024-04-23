@@ -112,9 +112,7 @@ public class GamePanel extends JPanel
 		points = 0;
 		levelInterval = 0; // At the start of the game
 
-		// animation = new FaceAnimation();
-		// animation2 = new CatAnimation();
-		// animation3 = new StripAnimation();
+		soundManager.playClip("level1", true);
 	}
 
 	public void run() {
@@ -194,18 +192,23 @@ public class GamePanel extends JPanel
 		if (points > 10 && levelInterval == 0) {
 			isLevel1 = false;
 			levelInterval = 1;
-			// isLevel2 = true;
+
 			Troll.lives++;
 			heartPanel.addHeart();
+
+			soundManager.stopClip("level1");
 		}
 
 		// Signals the completion of level 2
 		if (points > 50 && levelInterval == 2 && isLevel2) {
 			isLevel2 = false;
 			levelInterval = 3;
-			// isLevel2 = true;
+
 			Troll.lives++;
 			heartPanel.addHeart();
+
+			soundManager.stopClip("level2");
+			soundManager.playClip("dragonRoar", false);
 		}
 
 		// System.out.println("Points: " + points);
@@ -403,7 +406,9 @@ public class GamePanel extends JPanel
 	public void gameover() {
 		isPaused = true;
 		isRunning = false;
-		// soundManager.stopClip("background");
+		soundManager.stopClip("level1");
+		soundManager.stopClip("level2");
+		soundManager.stopClip("bossLevel");
 		soundManager.playClip("wizardDeath", false);
 		soundManager.playClip("gameover", false);
 		// soundManager.playClip("shipDeath", false);
