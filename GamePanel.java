@@ -82,11 +82,11 @@ public class GamePanel extends JPanel
 		spikeManager = new SpikeManager();
 
 		fireball = new Fireball(this, 175, 350);
-		dragonFireballs= new DragonFireball[3];
+		dragonFireballs = new DragonFireball[3];
 		dragonFireballs[0] = new DragonFireball(this, 160, 0);
 		dragonFireballs[1] = new DragonFireball(this, 175, 0);
 		dragonFireballs[2] = new DragonFireball(this, 180, 0);
-		wizard = new Wizard(this, 175, 350, dragonFireballs,fireball, heartPanel, spikeManager);
+		wizard = new Wizard(this, 175, 350, dragonFireballs, fireball, heartPanel, spikeManager);
 
 		trolls = new Troll[3];
 		trolls[0] = new Troll(this, 275, 10, wizard, fireball, heartPanel, spikeManager);
@@ -106,7 +106,7 @@ public class GamePanel extends JPanel
 
 		// animation = new FaceAnimation();
 		// animation2 = new CatAnimation();
-		dragon = new Dragon(this,dragonFireballs,wizard,fireball,heartPanel);
+		dragon = new Dragon(this, dragonFireballs, wizard, fireball, heartPanel);
 	}
 
 	public void run() {
@@ -132,10 +132,10 @@ public class GamePanel extends JPanel
 		}
 
 		// If requirements to beat level 2 are met
-		if (levelInterval == 5) {
-			levelInterval++;
-			isLevel3 = true;
+		if (levelInterval == 3) {
+			// levelInterval++;
 			timer2 = new LevelTimer(5000);
+			// isLevel3 = true;
 		}
 
 		// The two above if statementsa are at the top to allow the enemies to be
@@ -161,6 +161,13 @@ public class GamePanel extends JPanel
 			}
 		}
 
+		if (isLevel3) {
+			dragon.update();
+			dragonFireballs[0].move();
+			dragonFireballs[1].move();
+			dragonFireballs[2].move();
+		}
+
 		if (isBackgroundChange) {
 			spikeManager.leftSpikes.clear();
 			spikeManager.rightSpikes.clear();
@@ -179,13 +186,15 @@ public class GamePanel extends JPanel
 		}
 
 		// Signals the completion of level 2
-		if (points > 50 && levelInterval == 4 && isLevel2) {
+		if (points > 50 && levelInterval == 2 && isLevel2) {
 			isLevel2 = false;
-			levelInterval = 5;
+			levelInterval = 3;
 			// isLevel2 = true;
 			Troll.lives++;
 			heartPanel.addHeart();
 		}
+
+		System.out.println(levelInterval);
 
 		// System.out.println("Points: " + points);
 		// System.out.println("Lives: " + lives);
@@ -198,10 +207,7 @@ public class GamePanel extends JPanel
 		 * animation2.update();
 		 * animation3.update();
 		 */
-		dragon.update();
-		dragonFireballs[0].move();
-		dragonFireballs[1].move();
-		dragonFireballs[2].move();
+
 	}
 
 	public void updateWizard(int direction) {
@@ -285,6 +291,17 @@ public class GamePanel extends JPanel
 			}
 		}
 
+		if (isLevel3) {
+			if (dragon != null) {
+				dragon.draw(imageContext);
+			}
+
+			if (dragonFireballs != null) {
+				for (int i = 0; i < 3; i++)
+					dragonFireballs[i].draw(imageContext);
+			}
+		}
+
 		/*
 		 * if (imageFX != null) {
 		 * imageFX.draw (imageContext);
@@ -307,14 +324,6 @@ public class GamePanel extends JPanel
 		 * }
 		 */
 
-		if (dragon != null) {
-			dragon.draw(imageContext);
-		}
-
-		if (dragonFireballs != null) {
-			for (int i = 0; i < 3; i++)
-				dragonFireballs[i].draw(imageContext);
-		}
 		Graphics2D g2 = (Graphics2D) getGraphics(); // get the graphics context for the panel
 		g2.drawImage(image, 0, 0, 400, 400, null);
 
@@ -386,9 +395,9 @@ public class GamePanel extends JPanel
 		// soundManager.stopClip ("background");
 	}
 
-	//public void shootCat() {
-	//	animation3.start();
-	//}
+	// public void shootCat() {
+	// animation3.start();
+	// }
 
 	public boolean isOnWizard(int x, int y) {
 		return wizard.isOnWizard(x, y);

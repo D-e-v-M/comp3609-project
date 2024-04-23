@@ -17,7 +17,7 @@ public class LevelTimer {
                 if (GamePanel.isLevel2 == false && GamePanel.levelInterval == 1) {
                     GamePanel.isLevel2 = true;
                     GamePanel.levelInterval = 2;
-                } else {
+                } else if (GamePanel.levelInterval == 3) {
                     GamePanel.isLevel3 = true;
                     GamePanel.levelInterval = 4;
                 }
