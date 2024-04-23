@@ -28,16 +28,17 @@ public class Dragon {
 	Image stripImageRight;
 	Image stripImageLeft;
 	Image stripImage;
-	private JPanel panel;
+	private GamePanel panel;
 	DragonFireball[] balls;
 	Fireball fireball;
 	Wizard wizard;
 	public static int lives;
 	public static int points = 0;
+	public static boolean gameComplete = false;
 	private SoundManager soundManager;
 	private int currentFrameIndex = 0;
 
-	public Dragon(JPanel p, DragonFireball balls[], Wizard wizard, Fireball fireball, HeartPanel heartPanel) {
+	public Dragon(GamePanel p, DragonFireball balls[], Wizard wizard, Fireball fireball, HeartPanel heartPanel) {
 		soundManager = SoundManager.getInstance();
 		animation = new Animation(true);
 		panel = p;
@@ -134,9 +135,12 @@ public class Dragon {
 	}
 
 	public void killDezmond() {
+		soundManager.stopClip("bossLevel");
+		soundManager.stopClip("wingsFlap");
 		soundManager.playClip("dragonDeath", false);
 		animation.stop();
 
+		gameComplete = true;
 	}
 
 	public void setLocation() {

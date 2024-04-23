@@ -140,8 +140,12 @@ public class GamePanel extends JPanel
 		// If requirements to beat level 2 are met
 		if (levelInterval == 3) {
 			// levelInterval++;
-			timer2 = new LevelTimer(5000);
+			timer1 = new LevelTimer(5000);
 			// isLevel3 = true;
+		}
+
+		if (Dragon.gameComplete) {
+			timer1 = new LevelTimer(5000);
 		}
 
 		// The two above if statementsa are at the top to allow the enemies to be
@@ -325,6 +329,20 @@ public class GamePanel extends JPanel
 			fm = imageContext.getFontMetrics();
 			imageContext.setColor(Color.WHITE);
 			imageContext.drawString("GAME OVER", (getWidth() / 2) - 60, fm.getAscent());
+		}
+
+		if (levelInterval == 5) {
+			imageContext.setColor(new Color(255, 223, 0, 100));
+			imageContext.fillRect(0, 0, getWidth(), getHeight());
+			font = new Font("MS Gothic", Font.PLAIN, 28);
+			imageContext.setFont(font);
+			fm = imageContext.getFontMetrics();
+			imageContext.setColor(Color.WHITE);
+			imageContext.drawString("YOU WIN!", (getWidth() / 2) - 60, fm.getAscent());
+
+			soundManager.playClip("victory", false);
+
+			endGame();
 		}
 
 		Graphics2D g2 = (Graphics2D) getGraphics(); // get the graphics context for the panel

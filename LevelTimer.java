@@ -6,6 +6,7 @@ public class LevelTimer {
     private Timer timer;
     private int delay;
     private SoundManager soundManager;
+    public static boolean victoryScreen;
 
     public LevelTimer(int delay) {
         this.delay = delay;
@@ -27,6 +28,9 @@ public class LevelTimer {
                     GamePanel.levelInterval = 4;
 
                     soundManager.playClip("bossLevel", true);
+                    soundManager.playClip("wingsFlap", true);
+                } else if (Dragon.gameComplete) {
+                    GamePanel.levelInterval = 5;
                 }
             }
         }, delay);

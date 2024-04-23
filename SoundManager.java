@@ -28,6 +28,9 @@ public class SoundManager { // a Singleton class
 		clip = loadClip("sounds/dragon-roar.wav");
 		clips.put("dragonRoar", clip);
 
+		clip = loadClip("sounds/wings-flapping.wav");
+		clips.put("wingsFlap", clip);
+
 		clip = loadClip("sounds/goblin-death.wav");
 		clips.put("goblinDeath", clip);
 
@@ -54,6 +57,9 @@ public class SoundManager { // a Singleton class
 
 		clip = loadClip("sounds/gameover.wav");
 		clips.put("gameover", clip);
+
+		clip = loadClip("sounds/victory.wav");
+		clips.put("victory", clip);
 
 		volume = 1.0f;
 	}
