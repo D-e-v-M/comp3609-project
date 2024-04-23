@@ -38,8 +38,8 @@ public class GameWindow extends JFrame
 	@SuppressWarnings({ "unchecked" })
 	public GameWindow() {
 
-		setTitle("A Game With Aliens, Image Effects, and Animations");
-		setSize(800, 800);
+		setTitle("Illusions of Origins");
+		setSize(600, 600);
 		setLocationRelativeTo(null);
 
 		// create user interface objects
@@ -52,17 +52,17 @@ public class GameWindow extends JFrame
 
 		// create text fields and set their colour, etc.
 
-		statusBarTF = new JTextField(25);
-		keyTF = new JTextField(25);
-		mouseTF = new JTextField(25);
+		// statusBarTF = new JTextField(25);
+		// keyTF = new JTextField(25);
+		// mouseTF = new JTextField(25);
 
-		statusBarTF.setEditable(false);
-		keyTF.setEditable(false);
-		mouseTF.setEditable(false);
+		// statusBarTF.setEditable(false);
+		// keyTF.setEditable(false);
+		// mouseTF.setEditable(false);
 
-		statusBarTF.setBackground(Color.CYAN);
-		keyTF.setBackground(Color.YELLOW);
-		mouseTF.setBackground(Color.GREEN);
+		// statusBarTF.setBackground(Color.CYAN);
+		// keyTF.setBackground(Color.YELLOW);
+		// mouseTF.setBackground(Color.GREEN);
 
 		// create buttons
 
@@ -104,21 +104,21 @@ public class GameWindow extends JFrame
 
 		// create infoPanel
 
-		JPanel infoPanel = new JPanel();
-		gridLayout = new GridLayout(3, 2);
-		infoPanel.setLayout(gridLayout);
-		infoPanel.setBackground(Color.ORANGE);
+		// JPanel infoPanel = new JPanel();
+		// gridLayout = new GridLayout(3, 2);
+		// infoPanel.setLayout(gridLayout);
+		// infoPanel.setBackground(Color.ORANGE);
 
 		// add user interface objects to infoPanel
 
-		infoPanel.add(statusBarL);
-		infoPanel.add(statusBarTF);
+		// infoPanel.add(statusBarL);
+		// infoPanel.add(statusBarTF);
 
-		infoPanel.add(keyL);
-		infoPanel.add(keyTF);
+		// infoPanel.add(keyL);
+		// infoPanel.add(keyTF);
 
-		infoPanel.add(mouseL);
-		infoPanel.add(mouseTF);
+		// infoPanel.add(mouseL);
+		// infoPanel.add(mouseTF);
 
 		// create buttonPanel
 
@@ -137,11 +137,11 @@ public class GameWindow extends JFrame
 
 		// add sub-panels with GUI objects to mainPanel and set its colour
 
-		mainPanel.add(infoPanel);
+		// mainPanel.add(infoPanel);
 		mainPanel.add(gamePanel);
 		mainPanel.add(heartPanel);
 		mainPanel.add(buttonPanel);
-		mainPanel.setBackground(Color.PINK);
+		mainPanel.setBackground(new Color(41, 46, 39, 255));
 
 		// set up mainPanel to respond to keyboard and mouse
 
@@ -171,7 +171,7 @@ public class GameWindow extends JFrame
 
 		String command = e.getActionCommand();
 
-		statusBarTF.setText(command + " button clicked.");
+		// statusBarTF.setText(command + " button clicked.");
 
 		if (command.equals(startB.getText())) {
 			gamePanel.startGame();
@@ -207,7 +207,7 @@ public class GameWindow extends JFrame
 	public void keyPressed(KeyEvent e) {
 		int keyCode = e.getKeyCode();
 		String keyText = e.getKeyText(keyCode);
-		keyTF.setText(keyText + " pressed.");
+		// keyTF.setText(keyText + " pressed.");
 
 		if (keyCode == KeyEvent.VK_LEFT) {
 			gamePanel.updateWizard(1);
@@ -245,13 +245,13 @@ public class GameWindow extends JFrame
 		int x = e.getX();
 		int y = e.getY();
 
-		if (gamePanel.isOnWizard(x, y)) {
-			statusBarTF.setText("Mouse click on wizard!");
-			statusBarTF.setBackground(Color.RED);
-		} else {
-			statusBarTF.setText("");
-			statusBarTF.setBackground(Color.CYAN);
-		}
+		// if (gamePanel.isOnWizard(x, y)) {
+		// statusBarTF.setText("Mouse click on wizard!");
+		// statusBarTF.setBackground(Color.RED);
+		// } else {
+		// statusBarTF.setText("");
+		// statusBarTF.setBackground(Color.CYAN);
+		// }
 
 		mouseTF.setText("(" + x + ", " + y + ")");
 
