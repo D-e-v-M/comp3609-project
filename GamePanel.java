@@ -153,7 +153,7 @@ public class GamePanel extends JPanel
 			fireball.move();
 		}
 
-		if (isLevel3 || isLevel2) {
+		if (isLevel1 || isLevel2) {
 			for (int i = 0; i < NUM_TROLLS; i++) {
 				trolls[i].move();
 				lives = getLives();
@@ -161,7 +161,7 @@ public class GamePanel extends JPanel
 			}
 		}
 
-		if (isLevel3) {
+		if (isLevel2) {
 			for (int i = 0; i < NUM_GOBLINS; i++) {
 				goblins[i].move();
 				lives = getLives();
@@ -169,7 +169,7 @@ public class GamePanel extends JPanel
 			}
 		}
 
-		if (isLevel1) {
+		if (isLevel3) {
 			dragon.update();
 			dragonFireballs[0].move();
 			dragonFireballs[1].move();
@@ -273,7 +273,7 @@ public class GamePanel extends JPanel
 		}
 
 		// Scoreboard
-		String pointsString = Integer.toString(points);
+		String pointsString = Integer.toString(Troll.points);
 		Font font = new Font("MS Gothic", Font.PLAIN, 16);
 		imageContext.setFont(font);
 		FontMetrics fm = imageContext.getFontMetrics();
@@ -289,7 +289,7 @@ public class GamePanel extends JPanel
 			spike.draw(imageContext);
 		}
 
-		if (isLevel2 || isLevel2) {
+		if (isLevel1 || isLevel2) {
 			if (trolls != null) {
 				for (int i = 0; i < NUM_TROLLS; i++)
 					trolls[i].draw(imageContext);
@@ -303,7 +303,7 @@ public class GamePanel extends JPanel
 			}
 		}
 
-		if (isLevel1) {
+		if (isLevel3) {
 			if (dragon != null) {
 				dragon.draw(imageContext);
 			}
@@ -313,28 +313,6 @@ public class GamePanel extends JPanel
 					dragonFireballs[i].draw(imageContext);
 			}
 		}
-
-		/*
-		 * if (imageFX != null) {
-		 * imageFX.draw (imageContext);
-		 * }
-		 * 
-		 * if (imageFX2 != null) {
-		 * imageFX2.draw (imageContext);
-		 * }
-		 * 
-		 * if (animation != null) {
-		 * animation.draw (imageContext);
-		 * }
-		 * 
-		 * if (animation2 != null) {
-		 * animation2.draw (imageContext);
-		 * }
-		 * 
-		 * if (animation3 != null) {
-		 * animation3.draw (imageContext);
-		 * }
-		 */
 
 		if (gameover) {
 			imageContext.setColor(new Color(255, 0, 0, 100));

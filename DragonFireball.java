@@ -70,6 +70,7 @@ public class DragonFireball extends Thread {
             soundManager.playClip("fireBallHit", false);
             Troll.lives--;
             heartPanel.loseHearts();
+            y = 500;
         }
 
         return true;

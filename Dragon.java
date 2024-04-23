@@ -103,10 +103,11 @@ public class Dragon {
 		if (currentFrameIndex >= 6) {
 			currentFrameIndex = 0;
 		}
+
 		boolean fireCollision = collidesWithFireball(currentFrameIndex);
 
 		if (fireCollision) {
-			soundManager.playClip("fireball-hit", false);
+			soundManager.playClip("fireballHit", false);
 			Troll.points++;
 			points++;
 			if (points >= 5) {
@@ -124,10 +125,9 @@ public class Dragon {
 
 			setLocation();
 			if (balls != null) {
+				soundManager.playClip("fireballShoot", false);
 				for (int i = 0; i < 3; i++)
 					balls[i].setLocation(y);
-
-				System.out.println("hi");
 			}
 		}
 
