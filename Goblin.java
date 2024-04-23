@@ -128,15 +128,6 @@ public class Goblin {
 
     }
 
-    /*
-     * public boolean isOnTroll (int x, int y) {
-     * if (head == null)
-     * return false;
-     * 
-     * return head.contains(x, y);
-     * }
-     */
-
     public Rectangle2D.Double getBoundingRectangle() {
         return new Rectangle2D.Double(x, y, width, height);
     }

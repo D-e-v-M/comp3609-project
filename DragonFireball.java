@@ -80,7 +80,6 @@ public class DragonFireball extends Thread {
         int panelWidth = panel.getWidth();
         int panelHeight = panel.getHeight();
         x = random.nextInt(panelWidth - width);
-        // y= random.nextInt(panelHeight-height);
         y = yval;
     }
 

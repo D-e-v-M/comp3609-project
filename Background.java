@@ -49,51 +49,10 @@ public class Background {
 	}
 
 	public void move(int direction) {
-
-		// if (direction == 1)
-		// moveRight();
-		// else if (direction == 2)
-		// moveLeft();
 		if (direction == 3)
 			moveUp();
 		else if (direction == 4)
 			moveDown();
-	}
-
-	public void moveLeft() {
-
-		bgX = bgX - bgDX;
-
-		bg1X = bg1X - bgDX;
-		bg2X = bg2X - bgDX;
-
-		String mess = "Moving background left: bgX=" + bgX + " bg1X=" + bg1X + " bg2X=" + bg2X;
-		System.out.println(mess);
-
-		if (bg1X < (bgImageWidth * -1)) {
-			System.out.println("Background change: bgX = " + bgX);
-			bg1X = 0;
-			bg2X = bgImageWidth;
-		}
-
-	}
-
-	public void moveRight() {
-
-		bgX = bgX + bgDX;
-
-		bg1X = bg1X + bgDX;
-		bg2X = bg2X + bgDX;
-
-		String mess = "Moving background right: bgX=" + bgX + " bg1X=" + bg1X + " bg2X=" + bg2X;
-		System.out.println(mess);
-
-		if (bg1X > 0) {
-			System.out.println("Background change: bgX = " + bgX);
-			bg1X = bgImageWidth * -1;
-			bg2X = 0;
-		}
-
 	}
 
 	public void moveUp() {
@@ -101,9 +60,6 @@ public class Background {
 
 		bg1Y = bg1Y - bgDY;
 		bg2Y = bg2Y - bgDY;
-
-		String mess = "Moving background up: bgY=" + bgY + " bg1Y=" + bg1Y + " bg2Y=" + bg2Y;
-		System.out.println(mess);
 
 		if (bg1Y < (bgImageHeight * -1)) {
 			System.out.println("Background change: bgY = " + bgY);
@@ -118,9 +74,6 @@ public class Background {
 
 		bg1Y = bg1Y + bgDY;
 		bg2Y = bg2Y + bgDY;
-
-		String mess = "Moving background up: bgY=" + bgY + " bg1Y=" + bg1Y + " bg2Y=" + bg2Y;
-		System.out.println(mess);
 
 		if (bg1Y > 0) {
 			System.out.println("Background change: bgY = " + bgY);

@@ -13,13 +13,13 @@ public class SoundManager { // a Singleton class
 	private SoundManager() {
 		clips = new HashMap<String, Clip>();
 
-		Clip clip = loadClip("sounds/background-1.wav"); // played from start of the game
+		Clip clip = loadClip("sounds/background-1.wav");
 		clips.put("level1", clip);
 
-		clip = loadClip("sounds/background-2.wav"); // played when the wizard hits an troll
+		clip = loadClip("sounds/background-2.wav");
 		clips.put("level2", clip);
 
-		clip = loadClip("sounds/boss-background.wav"); // played when an troll is regenerated at the top of the JPanel
+		clip = loadClip("sounds/boss-background.wav");
 		clips.put("bossLevel", clip);
 
 		clip = loadClip("sounds/dragon-death.wav");

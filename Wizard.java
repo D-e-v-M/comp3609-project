@@ -71,7 +71,6 @@ public class Wizard {
 		fireball.setX(x);
 
 		boolean spikeCollision;
-		// boolean dragonfireCollision;
 
 		for (Spike spike : spikeManager.leftSpikes) {
 			spikeCollision = collidesWithSpike(spike);
@@ -95,49 +94,11 @@ public class Wizard {
 			}
 		}
 
-		// for(DragonFireball ball : dragonFireballs)
-		// {
-		// dragonfireCollision= collidesWithDragonFireball(ball);
-		// if (dragonfireCollision) {
-		// //soundManager.playClip("sounds/fireball-collision.wav", false);
-		// heartPanel.loseHearts();
-
-		// }
-		// }
-
 	}
 
 	public Rectangle2D.Double getBoundingRectangle() {
 		return new Rectangle2D.Double(x, y, width, height);
 	}
-
-	// public boolean collidesWithDragonFireball(DragonFireball ball) {
-	// Rectangle2D.Double myRect = getBoundingRectangle();
-	// Rectangle2D.Double fireRect = ball.getBoundingRectangle();
-
-	// return myRect.intersects(fireRect);
-	// }
-
-	/*
-	 * public void move (int direction) {
-	 * 
-	 * if (!panel.isVisible ()) return;
-	 * 
-	 * if (direction == 1) {
-	 * x = x - dx;
-	 * wizardImage = wizardLeftImage;
-	 * if (x < -30) // move to right of GamePanel
-	 * x = 380;
-	 * }
-	 * else
-	 * if (direction == 2) {
-	 * x = x + dx;
-	 * wizardImage = wizardRightImage;
-	 * if (x > 380) // move to left of GamePanel
-	 * x = -30;
-	 * }
-	 * }
-	 */
 
 	public int getX() {
 		return x;

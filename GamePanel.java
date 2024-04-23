@@ -37,14 +37,12 @@ public class GamePanel extends JPanel
 	public static boolean isBackgroundChange;
 	private int lives;
 	private int points;
-	private LevelTimer timer1;
-	private LevelTimer timer2;
+	private LevelTimer timer;
 	private boolean gameover;
 
 	private Thread gameThread;
 
 	private BufferedImage image;
-	// private Image backgroundImage;
 
 	private Background background;
 
@@ -52,14 +50,7 @@ public class GamePanel extends JPanel
 
 	private HeartPanel heartPanel;
 
-	private ImageFX imageFX;
-	private ImageFX imageFX2;
-
 	private SpikeManager spikeManager;
-
-	private FaceAnimation animation;
-	private CatAnimation animation2;
-	private StripAnimation animation3;
 
 	public GamePanel(HeartPanel heartPanel) {
 		wizard = null;
@@ -73,8 +64,6 @@ public class GamePanel extends JPanel
 		soundManager = SoundManager.getInstance();
 
 		this.heartPanel = heartPanel;
-
-		// backgroundImage = ImageManager.loadImage ("images/Background.jpg");
 
 		image = new BufferedImage(400, 400, BufferedImage.TYPE_INT_RGB);
 	}
@@ -104,9 +93,6 @@ public class GamePanel extends JPanel
 		dragonFireballs[2] = new DragonFireball(this, 180, 0, wizard, heartPanel);
 		dragon = new Dragon(this, dragonFireballs, wizard, fireball, heartPanel);
 
-		imageFX = new TintFX(this);
-		imageFX2 = new GrayScaleFX2(this);
-
 		spikeManager.spawnSpikes();
 
 		points = 0;
@@ -132,23 +118,19 @@ public class GamePanel extends JPanel
 
 		// If requirements to beat level 1 are met
 		if (levelInterval == 1) {
-			timer1 = new LevelTimer(5000);
-			// levelInterval++;
-			// isLevel2 = true;
+			timer = new LevelTimer(5000);
 		}
 
 		// If requirements to beat level 2 are met
 		if (levelInterval == 3) {
-			// levelInterval++;
-			timer1 = new LevelTimer(5000);
-			// isLevel3 = true;
+			timer = new LevelTimer(5000);
 		}
 
 		if (Dragon.gameComplete) {
-			timer1 = new LevelTimer(5000);
+			timer = new LevelTimer(5000);
 		}
 
-		// The two above if statementsa are at the top to allow the enemies to be
+		// The if statementsa are at the top to allow the enemies to be
 		// unrendered
 
 		if (fireballShoot) {
@@ -214,19 +196,6 @@ public class GamePanel extends JPanel
 			soundManager.stopClip("level2");
 			soundManager.playClip("dragonRoar", false);
 		}
-
-		// System.out.println("Points: " + points);
-		// System.out.println("Lives: " + lives);
-
-		/*
-		 * imageFX.update();
-		 * imageFX2.update();
-		 * 
-		 * animation.update();
-		 * animation2.update();
-		 * animation3.update();
-		 */
-		// animation3.update();
 	}
 
 	public void updateWizard(int direction) {
@@ -244,13 +213,6 @@ public class GamePanel extends JPanel
 
 	}
 
-	// public void shootFireball() {
-	// if (fireball != null && wizard != null) {
-	// fireball.shoot(imageContext);
-	// soundManager.playClip("fireballShoot", false);
-	// }
-	// }
-
 	public void shootFireball() {
 		if (fireballShoot)
 			fireballShoot = false;
@@ -267,9 +229,6 @@ public class GamePanel extends JPanel
 		imageContext = (Graphics2D) image.getGraphics();
 
 		background.draw(imageContext);
-
-		// imageContext.drawImage(backgroundImage, 0, 0, null); // draw the background
-		// image
 
 		if (wizard != null) {
 			wizard.draw(imageContext);
@@ -331,6 +290,7 @@ public class GamePanel extends JPanel
 			imageContext.drawString("GAME OVER", (getWidth() / 2) - 60, fm.getAscent());
 		}
 
+		// Checks to see if game is completed
 		if (levelInterval == 5) {
 			imageContext.setColor(new Color(255, 223, 0, 100));
 			imageContext.fillRect(0, 0, getWidth(), getHeight());
@@ -355,20 +315,11 @@ public class GamePanel extends JPanel
 	public void startGame() { // initialise and start the game thread
 
 		if (gameThread == null) {
-			// soundManager.playClip("level1", true);
 			createGameEntities();
 			gameThread = new Thread(this);
 			gameThread.start();
 
 			isLevel1 = true;
-
-			if (animation != null) {
-				animation.start();
-			}
-
-			if (animation2 != null) {
-				animation2.start();
-			}
 
 			if (dragon != null) {
 				dragon.start();
@@ -382,7 +333,6 @@ public class GamePanel extends JPanel
 		isPaused = false;
 
 		if (gameThread == null || !isRunning) {
-			// soundManager.playClip ("background", true);
 			createGameEntities();
 			heartPanel.setHearts();
 			gameover = false;
@@ -392,14 +342,6 @@ public class GamePanel extends JPanel
 			isLevel2 = false;
 			isLevel3 = false;
 			isLevel1 = true;
-
-			if (animation != null) {
-				animation.start();
-			}
-
-			if (animation2 != null) {
-				animation2.start();
-			}
 
 			if (dragon != null) {
 				dragon.start();
@@ -418,7 +360,9 @@ public class GamePanel extends JPanel
 
 	public void endGame() { // end the game thread
 		isRunning = false;
-		// soundManager.stopClip ("background");
+		soundManager.stopClip("level1");
+		soundManager.stopClip("level2");
+		soundManager.stopClip("bossLevel");
 	}
 
 	public void gameover() {
@@ -429,11 +373,6 @@ public class GamePanel extends JPanel
 		soundManager.stopClip("bossLevel");
 		soundManager.playClip("wizardDeath", false);
 		soundManager.playClip("gameover", false);
-		// soundManager.playClip("shipDeath", false);
-	}
-
-	public void shootCat() {
-		animation3.start();
 	}
 
 	public boolean isOnWizard(int x, int y) {
