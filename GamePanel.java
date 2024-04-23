@@ -371,8 +371,8 @@ public class GamePanel extends JPanel
 				animation2.start();
 			}
 
-			if (animation3 != null) {
-				animation3.start();
+			if (dragon != null) {
+				dragon.start();
 			}
 		}
 
@@ -402,8 +402,8 @@ public class GamePanel extends JPanel
 				animation2.start();
 			}
 
-			if (animation3 != null) {
-				animation3.start();
+			if (dragon != null) {
+				dragon.start();
 			}
 		}
 	}
