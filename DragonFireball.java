@@ -7,6 +7,7 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.JPanel;
 import java.awt.Image;
 import java.util.Random;
+
 public class DragonFireball extends Thread {
 
     private GamePanel panel;
@@ -22,12 +23,15 @@ public class DragonFireball extends Thread {
 
     private Color backgroundColour;
     private Dimension dimension;
+
     private Wizard wizard;
+    private SoundManager soundManager;
+    private HeartPanel heartPanel;
 
     private Image fireImage;
     Random random;
 
-    public DragonFireball(GamePanel p, int xPos, int yPos) {
+    public DragonFireball(GamePanel p, int xPos, int yPos, Wizard wizard, HeartPanel heartPanel) {
         panel = p;
         dimension = panel.getSize();
         backgroundColour = panel.getBackground();
@@ -41,7 +45,9 @@ public class DragonFireball extends Thread {
         height = 50;
         random = new Random();
 
-        // this.wizard = wizard;
+        this.wizard = wizard;
+        this.heartPanel = heartPanel;
+        soundManager = SoundManager.getInstance();
         fireImage = ImageManager.loadImage("images/fireball.png");
     }
 
@@ -49,127 +55,43 @@ public class DragonFireball extends Thread {
         g2.drawImage(fireImage, x, y, width, height, null);
     }
 
-    // public void erase() {
-    // Graphics g = panel.getGraphics();
-    // Graphics2D g2 = (Graphics2D) g;
-
-    // // erase fireball by drawing a rectangle on top of it with the background
-    // colour
-
-    // g2.setColor(backgroundColour);
-    // g2.fill(new Rectangle2D.Double(x, y, width, height));
-
-    // g.dispose();
-    // }
-
-    /*
-     * public void move (int direction) {
-     * 
-     * if (!panel.isVisible ()) return;
-     * 
-     * if (direction == 1) {
-     * x = x - dx; // move left
-     * batImage = batLeftImage;
-     * }
-     * else
-     * if (direction == 2) {
-     * x = x + dx; // move right
-     * batImage = batRightImage;
-     * }
-     * }
-     */
-
     public boolean move() {
-        if (!panel.isVisible ()) return false;
+        if (!panel.isVisible())
+            return false;
 
-      x = x + dx;
-      y = y + dy;
+        x = x + dx;
+        y = y + dy;
 
-      int height = panel.getHeight();
-      return true;
+        int height = panel.getHeight();
+
+        boolean wizardCollision = collidesWithWizard();
+
+        if (wizardCollision) {
+            soundManager.playClip("fireBallHit", false);
+            Troll.lives--;
+            heartPanel.loseHearts();
+        }
+
+        return true;
     }
 
-        
-    
     public void setLocation(int yval) {
         int panelWidth = panel.getWidth();
         int panelHeight = panel.getHeight();
-        x = random.nextInt (panelWidth - width);
-        //y= random.nextInt(panelHeight-height);
-        y=yval;
-     }
-
-
-
-    // public int getX() {
-    // return x;
-    // }
-
-    // public void shoot(Graphics2D g2) {
-
-    // boolean isRunning = true;
-
-    // // Fireball not rendering on screen. Need fix
-    // try {
-    // while (isRunning) {
-    // isRunning = move();
-    // draw(g2);
-    // sleep(10); // increase value of sleep time to slow down ball
-    // }
-    // } catch (InterruptedException e) {
-    // }
-    // }
-
-    /*
-     * public void drawBullet() {
-     * Graphics g = panel.getGraphics();
-     * Graphics2D g2 = (Graphics2D) g;
-     * 
-     * bulletX = x + 18; // getting current position of cannon
-     * 
-     * // Draw the bullet
-     * 
-     * bullet = new Line2D.Double(bulletX, bulletY, bulletX, bulletY - 10);
-     * g2.setColor(Color.RED);
-     * g2.draw(bullet);
-     * 
-     * g.dispose();
-     * }
-     */
-
-    // public void erase() {
-    // Graphics g = panel.getGraphics();
-    // Graphics2D g2 = (Graphics2D) g;
-
-    // // erase bullet by drawing a line over it
-    // g2.setColor(Color.BLACK);
-    // g2.draw(new Line2D.Double(bulletX, bulletY, bulletX, bulletY - 10));
-
-    // g.dispose();
-    // }
-
-    /*
-     * public boolean isOnShip(int x, int y) {
-     * if (ship == null)
-     * return false;
-     * 
-     * return ship.contains(x, y);
-     * }
-     */
+        x = random.nextInt(panelWidth - width);
+        // y= random.nextInt(panelHeight-height);
+        y = yval;
+    }
 
     public Rectangle2D.Double getBoundingRectangle() {
         return new Rectangle2D.Double(x, y, width, height);
     }
 
-  
+    public boolean collidesWithWizard() {
+        Rectangle2D.Double myRect = getBoundingRectangle();
+        Rectangle2D.Double wizardRect = wizard.getBoundingRectangle();
 
-    /*
-     * public Line2D.Double getBoundingBullet() {
-     * return new Line2D.Double(bulletX - 10, bulletY, bulletX + 10, bulletY - 10);
-     * }
-     */
-    // public Graphics2D getShipContext() {
-    // return shipContext;
-    // }
+        return myRect.intersects(wizardRect);
+    }
 
 }

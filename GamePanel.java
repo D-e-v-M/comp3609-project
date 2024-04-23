@@ -22,7 +22,9 @@ public class GamePanel extends JPanel
 	private Troll[] trolls;
 	private Goblin[] goblins;
 	private Fireball fireball;
+	private Dragon dragon;
 	private DragonFireball[] dragonFireballs;
+
 	private boolean fireballShoot;
 	private boolean trollDropped;
 	private boolean goblinsDropped;
@@ -37,6 +39,7 @@ public class GamePanel extends JPanel
 	private int points;
 	private LevelTimer timer1;
 	private LevelTimer timer2;
+	private boolean gameover;
 
 	private Thread gameThread;
 
@@ -56,7 +59,7 @@ public class GamePanel extends JPanel
 
 	private FaceAnimation animation;
 	private CatAnimation animation2;
-	private Dragon dragon;
+	private StripAnimation animation3;
 
 	public GamePanel(HeartPanel heartPanel) {
 		wizard = null;
@@ -66,6 +69,7 @@ public class GamePanel extends JPanel
 		isPaused = false;
 		isBackgroundChange = true;
 		fireballShoot = false;
+		gameover = false;
 		soundManager = SoundManager.getInstance();
 
 		this.heartPanel = heartPanel;
@@ -82,11 +86,7 @@ public class GamePanel extends JPanel
 		spikeManager = new SpikeManager();
 
 		fireball = new Fireball(this, 175, 350);
-		dragonFireballs = new DragonFireball[3];
-		dragonFireballs[0] = new DragonFireball(this, 160, 0);
-		dragonFireballs[1] = new DragonFireball(this, 175, 0);
-		dragonFireballs[2] = new DragonFireball(this, 180, 0);
-		wizard = new Wizard(this, 175, 350, dragonFireballs, fireball, heartPanel, spikeManager);
+		wizard = new Wizard(this, 175, 350, fireball, heartPanel, spikeManager);
 
 		trolls = new Troll[3];
 		trolls[0] = new Troll(this, 275, 10, wizard, fireball, heartPanel, spikeManager);
@@ -98,15 +98,23 @@ public class GamePanel extends JPanel
 		goblins[1] = new Goblin(this, 150, 10, wizard, fireball, heartPanel, spikeManager);
 		goblins[2] = new Goblin(this, 330, 10, wizard, fireball, heartPanel, spikeManager);
 
+		dragonFireballs = new DragonFireball[3];
+		dragonFireballs[0] = new DragonFireball(this, 60, 0, wizard, heartPanel);
+		dragonFireballs[1] = new DragonFireball(this, 175, 0, wizard, heartPanel);
+		dragonFireballs[2] = new DragonFireball(this, 180, 0, wizard, heartPanel);
+		dragon = new Dragon(this, dragonFireballs, wizard, fireball, heartPanel);
+
 		imageFX = new TintFX(this);
 		imageFX2 = new GrayScaleFX2(this);
+
+		spikeManager.spawnSpikes();
 
 		points = 0;
 		levelInterval = 0; // At the start of the game
 
 		// animation = new FaceAnimation();
 		// animation2 = new CatAnimation();
-		dragon = new Dragon(this, dragonFireballs, wizard, fireball, heartPanel);
+		// animation3 = new StripAnimation();
 	}
 
 	public void run() {
@@ -145,7 +153,7 @@ public class GamePanel extends JPanel
 			fireball.move();
 		}
 
-		if (isLevel1 || isLevel2) {
+		if (isLevel3 || isLevel2) {
 			for (int i = 0; i < NUM_TROLLS; i++) {
 				trolls[i].move();
 				lives = getLives();
@@ -153,7 +161,7 @@ public class GamePanel extends JPanel
 			}
 		}
 
-		if (isLevel2) {
+		if (isLevel3) {
 			for (int i = 0; i < NUM_GOBLINS; i++) {
 				goblins[i].move();
 				lives = getLives();
@@ -161,11 +169,17 @@ public class GamePanel extends JPanel
 			}
 		}
 
-		if (isLevel3) {
+		if (isLevel1) {
 			dragon.update();
 			dragonFireballs[0].move();
 			dragonFireballs[1].move();
 			dragonFireballs[2].move();
+		}
+
+		if (Troll.lives <= 0) {
+			gameover = true;
+			gameRender();
+			gameover();
 		}
 
 		if (isBackgroundChange) {
@@ -194,8 +208,6 @@ public class GamePanel extends JPanel
 			heartPanel.addHeart();
 		}
 
-		System.out.println(levelInterval);
-
 		// System.out.println("Points: " + points);
 		// System.out.println("Lives: " + lives);
 
@@ -207,7 +219,7 @@ public class GamePanel extends JPanel
 		 * animation2.update();
 		 * animation3.update();
 		 */
-
+		// animation3.update();
 	}
 
 	public void updateWizard(int direction) {
@@ -277,7 +289,7 @@ public class GamePanel extends JPanel
 			spike.draw(imageContext);
 		}
 
-		if (isLevel1 || isLevel2) {
+		if (isLevel2 || isLevel2) {
 			if (trolls != null) {
 				for (int i = 0; i < NUM_TROLLS; i++)
 					trolls[i].draw(imageContext);
@@ -291,7 +303,7 @@ public class GamePanel extends JPanel
 			}
 		}
 
-		if (isLevel3) {
+		if (isLevel1) {
 			if (dragon != null) {
 				dragon.draw(imageContext);
 			}
@@ -323,6 +335,16 @@ public class GamePanel extends JPanel
 		 * animation3.draw (imageContext);
 		 * }
 		 */
+
+		if (gameover) {
+			imageContext.setColor(new Color(255, 0, 0, 100));
+			imageContext.fillRect(0, 0, getWidth(), getHeight());
+			font = new Font("MS Gothic", Font.PLAIN, 28);
+			imageContext.setFont(font);
+			fm = imageContext.getFontMetrics();
+			imageContext.setColor(Color.WHITE);
+			imageContext.drawString("GAME OVER", (getWidth() / 2) - 60, fm.getAscent());
+		}
 
 		Graphics2D g2 = (Graphics2D) getGraphics(); // get the graphics context for the panel
 		g2.drawImage(image, 0, 0, 400, 400, null);
@@ -364,8 +386,13 @@ public class GamePanel extends JPanel
 			// soundManager.playClip ("background", true);
 			createGameEntities();
 			heartPanel.setHearts();
+			gameover = false;
 			gameThread = new Thread(this);
 			gameThread.start();
+
+			isLevel2 = false;
+			isLevel3 = false;
+			isLevel1 = true;
 
 			if (animation != null) {
 				animation.start();
@@ -395,9 +422,18 @@ public class GamePanel extends JPanel
 		// soundManager.stopClip ("background");
 	}
 
-	// public void shootCat() {
-	// animation3.start();
-	// }
+	public void gameover() {
+		isPaused = true;
+		isRunning = false;
+		// soundManager.stopClip("background");
+		soundManager.playClip("wizardDeath", false);
+		soundManager.playClip("gameover", false);
+		// soundManager.playClip("shipDeath", false);
+	}
+
+	public void shootCat() {
+		animation3.start();
+	}
 
 	public boolean isOnWizard(int x, int y) {
 		return wizard.isOnWizard(x, y);

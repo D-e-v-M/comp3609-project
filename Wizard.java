@@ -19,13 +19,12 @@ public class Wizard {
 
 	private Fireball fireball;
 	private SpikeManager spikeManager;
-	private DragonFireball[] dragonFireballs;
 
 	private HeartPanel heartPanel;
 	private SoundManager soundManager;
 	private Image wizardImage;
 
-	public Wizard(JPanel p, int xPos, int yPos, DragonFireball dragonFireballs[], Fireball fireball, HeartPanel heartPanel, SpikeManager spikeManager) {
+	public Wizard(JPanel p, int xPos, int yPos, Fireball fireball, HeartPanel heartPanel, SpikeManager spikeManager) {
 		panel = p;
 
 		x = xPos;
@@ -41,7 +40,6 @@ public class Wizard {
 		this.spikeManager = spikeManager;
 
 		this.heartPanel = heartPanel;
-		this.dragonFireballs=dragonFireballs;
 
 		soundManager = SoundManager.getInstance();
 		wizardImage = ImageManager.loadImage("images/wizard.png");
@@ -73,7 +71,7 @@ public class Wizard {
 		fireball.setX(x);
 
 		boolean spikeCollision;
-		boolean dragonfireCollision;
+		// boolean dragonfireCollision;
 
 		for (Spike spike : spikeManager.leftSpikes) {
 			spikeCollision = collidesWithSpike(spike);
@@ -97,30 +95,28 @@ public class Wizard {
 			}
 		}
 
-		
-        for(DragonFireball ball : dragonFireballs)
-		{
-		 dragonfireCollision= collidesWithDragonFireball(ball);
-        if (dragonfireCollision) {
-                //soundManager.playClip("sounds/fireball-collision.wav", false);
-				heartPanel.loseHearts();
-                
-            }
-		}
+		// for(DragonFireball ball : dragonFireballs)
+		// {
+		// dragonfireCollision= collidesWithDragonFireball(ball);
+		// if (dragonfireCollision) {
+		// //soundManager.playClip("sounds/fireball-collision.wav", false);
+		// heartPanel.loseHearts();
+
+		// }
+		// }
 
 	}
+
 	public Rectangle2D.Double getBoundingRectangle() {
 		return new Rectangle2D.Double(x, y, width, height);
-	 }
-  
-	
-  
-	 public boolean collidesWithDragonFireball(DragonFireball ball) {
-		Rectangle2D.Double myRect = getBoundingRectangle();
-		Rectangle2D.Double fireRect = ball.getBoundingRectangle();
-  
-		return myRect.intersects(fireRect);
-	 }
+	}
+
+	// public boolean collidesWithDragonFireball(DragonFireball ball) {
+	// Rectangle2D.Double myRect = getBoundingRectangle();
+	// Rectangle2D.Double fireRect = ball.getBoundingRectangle();
+
+	// return myRect.intersects(fireRect);
+	// }
 
 	/*
 	 * public void move (int direction) {
@@ -151,8 +147,6 @@ public class Wizard {
 		Rectangle2D.Double myRectangle = getBoundingRectangle();
 		return myRectangle.contains(x, y);
 	}
-
-	
 
 	public boolean collidesWithSpike(Spike spike) {
 		Rectangle2D.Double myRect = getBoundingRectangle();
