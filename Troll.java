@@ -59,7 +59,7 @@ public class Troll {
       setLocation();
       setLivesAndPoints();
 
-      dx = 0; // no movement along x-axis
+      dx = 2;
       dy = 10; // would like the troll to drop down
 
       this.wizard = wizard;
@@ -87,10 +87,15 @@ public class Troll {
       if (!panel.isVisible())
          return;
 
-      x = x + dx;
       y = y + dy;
 
       int height = panel.getHeight();
+
+      if (wizard.getX() > x)
+         x = x + dx;
+      if (wizard.getX() < x)
+         x = x - dx;
+
       boolean wizardCollision = collidesWithWizard();
       boolean fireCollision = collidesWithFireball();
       boolean spikeCollision;
