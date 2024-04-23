@@ -332,6 +332,8 @@ public class GamePanel extends JPanel
 
 		isPaused = false;
 
+		soundManager.stopClip("wingsFlap");
+
 		if (gameThread == null || !isRunning) {
 			createGameEntities();
 			heartPanel.setHearts();
